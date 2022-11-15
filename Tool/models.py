@@ -41,6 +41,7 @@ class Team(db.Model):
 
     knowledge = db.relationship('Knowledge' , backref = 'team' , lazy = 'dynamic')
     events = db.relationship('Events' , backref = 'team' , lazy = 'dynamic')
+    chats = db.relationship('Chat' , backref = 'team' , lazy = 'dynamic')
 
     def __init__(self, name, password, randomid ,  ownerid):
         self.name = name
@@ -50,6 +51,20 @@ class Team(db.Model):
 
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
+
+class Chat(db.Model):
+    __tablename__ = 'chats'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    message = db.Column(db.String)
+
+    teamid = db.Column(db.Integer , db.ForeignKey('teams.id'))
+
+    def __init__(self,name,message,teamid):
+        self.name = name
+        self.message = message
+        self.teamid = teamid
+
 class Events(db.Model):
     __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key = True)

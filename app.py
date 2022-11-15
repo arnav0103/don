@@ -1,6 +1,6 @@
 from Tool import app, db , socketio
 from Tool.forms import RegistrationForm, LoginForm , MakeTeamForm , TeamLoginForm , MakeUpcoming , UpdateUserForm ,UpdateTeamForm , Make_Rental , UpdateRent , KnowledgeForm , UpdateKnowledgeForm
-from Tool.models import User,Team,Events , Rent , Knowledge
+from Tool.models import User,Team,Events , Rent , Knowledge, Chat
 from flask import render_template,request, url_for, redirect, flash ,abort
 from flask_login import current_user, login_required, login_user , logout_user
 from picture_handler import add_profile_pic , add_team_pic , add_rent_pic , add_knowledge_pic
@@ -459,13 +459,19 @@ def sessions(teamid):
     team = Team.query.filter_by(randomid = teamid).first()
     if team is None or current_user not in team.workers:
         abort(403)
-    return render_template('chat.html')
+    return render_template('chat.html', team=team)
 def messageReceived(methods=['GET', 'POST']):
     print('message was received!!!')
 
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
+    if len(json)==3:
+        chat = Chat(name = json['user_name'],
+                message = json['message'],
+                teamid = json['teamid'])
+        db.session.add(chat)
+        db.session.commit()
     socketio.emit('my response', json, callback=messageReceived)
 
 ###########################################
