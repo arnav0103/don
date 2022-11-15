@@ -1,5 +1,5 @@
 from Tool import app, db , socketio
-from Tool.forms import RegistrationForm, LoginForm , MakeTeamForm , TeamLoginForm , MakeUpcoming , UpdateUserForm ,UpdateTeamForm , Make_Rental , UpdateRent , KnowledgeForm , UpdateKnowledgeForm
+from Tool.forms import RegistrationForm, LoginForm , MakeTeamForm , TeamLoginForm , MakeUpcoming , UpdateUserForm ,UpdateTeamForm , Make_Rental , UpdateRent , KnowledgeForm , UpdateKnowledgeForm, RoleForm
 from Tool.models import User,Team,Events , Rent , Knowledge, Chat
 from flask import render_template,request, url_for, redirect, flash ,abort
 from flask_login import current_user, login_required, login_user , logout_user
@@ -111,7 +111,16 @@ def join_team():
         elif team is None:
             error = 'Wrong id .'
     return render_template('teamlogin.htm', form = form)
-########## * ERROR HANDLERS * #############
+
+@app.route('/<team_id>/<user_id>/roles', methods = ['GET', 'POST'])
+@login_required
+def roles(team_id,user_id):
+    team = Team.query.filter_by(randomid = team_id).first()
+    if current_user.role!=2:
+        abort(403)
+    user = User.query.get(user_id)
+    form = RoleForm()
+    
 @app.route('/<team_id>/<type>/makeupcoming', methods = ['GET' , 'POST'])
 @login_required
 def make_upcoming(team_id,type):
