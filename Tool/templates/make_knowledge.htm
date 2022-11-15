@@ -1,0 +1,31 @@
+{%extends "base.htm"%}
+{%block content%}
+<br><br><br><br><br>
+<h1 align = "center">Add to Knowledge of your team database</h1>
+  <div class="container">
+    <form class="form-group" method="POST" action="" enctype="multipart/form-data">
+      {{form.hidden_tag()}}
+      <div class="form-group">
+        {{form.title.label(class = 'form-control-label ')}}
+        {{form.title(class = 'form-control form-control-lg')}}
+      </div>
+      <div class="form-group">
+        {{form.content.label(class = 'form-control-label ')}}
+        {{form.content(class = 'form-control form-control')}}
+      </div>
+      <div class="form-group">
+        {{form.picture.label(class="form-group col-md-6")}}
+        {{form.picture(class="form-control-file col-md-6  ")}}
+        {%if form.picture.errors%}
+          {%for error in form.picture.errors%}
+            <small class = 'text-danger'>{{error}}</small>
+          {%endfor%}
+        {%endif%}
+      </div>
+      <div class="form-group">
+        {{form.submit(class  ='btn  btn-primary change', align ='center')}}
+      </div>
+    </form>
+
+  </div>
+{%endblock%}

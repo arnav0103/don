@@ -1,0 +1,21 @@
+{%extends 'base.htm'%}
+{%block content%}
+<!-- hhhh -->
+<br><br><br><br><br><br><br>
+  <div align = "center" class="container border card" style = "width : 50rem;">
+    <h1 style="font-weight:900;">{{rent.thing}}</h1>
+    <br>
+    <div align="center">
+    <img style = "width : 20rem;"  class = "card-text" align ="center" src="{{image}}">
+    </div>
+    <br>
+    <p style="font-family: 'Josefin Sans', sans-serif; font-weight:800; font-size: larger;" class = "card-text">{{rent.description}}</p>
+    <br>
+    <h4 style="font-weight:800;">Price :- ₹{{rent.price}}</h4>
+    <br>
+    <h2 style="font-weight:800;">Contact :- {{rent.user.email}}</h2><br>
+    {%if current_user == rent.user%}
+      <center><a class="btn btn-primary change" href="{{url_for('update' , rent_id = rent.id)}}">Edit</a></center>
+    {%endif%}
+  </div>
+{%endblock%}

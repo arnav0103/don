@@ -1,0 +1,56 @@
+{%extends "base.htm"%}
+{%block content%}
+<br><br><br><br><br><br>
+<div class="container jumbotron" id="account">
+  <div align='center'>
+    <h1>Welcome To the Page for {{current_user.username}}</h1>
+    Your Profile Image: <br>
+    <a href="{{profile_image}}">
+    <img align = 'center' src="{{profile_image}}" >
+    </a>
+
+  </div>
+  <div class="container " align ="center">
+    <form method="POST" action = "" enctype="multipart/form-data">
+      {{form.hidden_tag()}}
+      <div class="form-group">
+          {{form.username.label(class="form-group")}}
+          {{form.username(class="form-control col-md-6")}}
+          {%if form.username.errors%}
+            {%for error in form.username.errors%}
+              <small class = 'text-danger'>{{error}}</small>
+            {%endfor%}
+          {%endif%}
+      </div>
+      <div class="form-group">
+        {{form.email.label(class="form-group")}}
+        {{form.email(class="form-control col-md-6")}}
+        {%if form.email.errors%}
+          {%for error in form.email.errors%}
+            <small class = 'text-danger'>{{error}}</small>
+          {%endfor%}
+        {%endif%}
+      </div>
+      <div class="form-group">
+        {{form.picture.label(class="form-group")}}
+        {{form.picture(class="form-control-file col-md-6")}}
+        {%if form.picture.errors%}
+          {%for error in form.picture.errors%}
+            <small class = 'text-danger'>{{error}}</small>
+          {%endfor%}
+        {%endif%}
+      </div>
+      <div class="form-group">
+        {{form.submit(class = 'btn btn-primary change')}}
+        <a class = "btn btn-primary change" href="{{url_for('your_rental')}}">Your rentals</a>
+      </div>
+    </form>
+
+  </div>
+
+</div>
+
+
+
+
+{%endblock%}

@@ -1,0 +1,18 @@
+{%extends 'base.htm'%}
+
+{%block content%}
+<br><br><br><br><br><br><br>
+  {%for team in teams%}
+  <div class="allcards" style="display:inline-block;">
+  <div class="card" style="width: 20rem;">
+    <a href = "{{url_for('static' , filename = team.team_image)}}"  >
+    <img src="{{url_for('static' , filename = team.team_image)}}" class="card-img-top" alt="Team image can't load">
+    </a>
+    <div class="card-body">
+      
+      <a class="btn btn-primary change" href="{{url_for('team' , team_id = team.randomid)}}">{{team.name}}</a>    </div>
+  </div>
+</div>
+
+  {%endfor%}
+{%endblock%}

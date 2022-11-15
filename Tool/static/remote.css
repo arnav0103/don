@@ -1,0 +1,378 @@
+html{
+    scroll-behavior: smooth;
+}
+body {
+    font-family: 'Josefin Sans', sans-serif !important;
+}
+
+.navigation {
+    position: sticky ;
+    padding: 1.5%;
+    width: 100%;
+    background-color: white !important;
+    line-height: 40px;
+    /* border-bottom: 2px solid black; */
+    box-shadow: 0 10px 5px -6px rgba(75, 75, 75, 0.281);
+}
+.clicks{
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+    padding-top: 5px ;
+    float: right;
+}
+
+#home {
+    background-attachment: fixed;
+    background-image: url(twoimg.jpg);
+    background-size: cover !important;
+    font-family: 'Josefin Sans', sans-serif;
+    padding-right: 2.4%;
+    padding-top: 13%;
+    font-weight: 600;
+    text-align: right;
+    font-size: 250%;
+    color: black !important;
+    height: 100vh;
+}
+#quote{
+    width: 30%;
+    float: right;
+    margin-right: 6%;
+    margin-top: 1%;
+}
+.about {
+    height:min-content;
+    background-color: white;
+    padding: 8%;
+    display: flex;
+}
+#connect{
+    padding: 4% !important;
+    padding-top: 0 !important;
+}
+#jumbo {
+    width: 50%;
+    float: left;
+    margin-top: 3%;
+    height: max-content;
+}
+#first {
+    float: right;
+    width: 50%;
+}
+#flexbox {
+    float: right;
+}
+.card{
+    padding: 2%;
+    margin: 2em;
+}
+
+a {
+    text-decoration: none !important;
+    color: black !important;
+}
+#log {
+    margin-top: 8%;
+}
+button {
+    outline: none !important;
+    
+}
+
+.change{
+    background-color: #44449C !important;
+    font-weight: 800;
+    font-size: 90% !important;
+    color: white !important;
+    outline: none;
+}
+.trial{
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 600;
+    font-size: 150%;
+    align-items: center !important;
+}
+#flex {
+    float: right;
+    width: max-content;
+}
+
+.switch {
+    padding: 1%;
+    outline: none;
+    border: none;
+    font-weight: 900;
+}
+.addition {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 150%;
+    font-weight: 900;
+    margin: 5%;
+    margin-top: 15% !important;
+}
+#share {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 150%;
+    font-weight: 900;
+    margin: 5%;
+}
+#my-tabs {
+    text-align: center;
+    width: 80%;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 700;
+    font-size: 180%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+/* FOR LIGHTBOX */
+ul {
+    list-style-type: none !important;
+    padding: 0;
+}
+audio {
+    margin: 3%;
+}
+#lightbox {
+    position: fixed;
+    color: white;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.842) !important;
+    font-family: 'Josefin Sans', sans-serif;
+    z-index: 10;
+    display: flex;
+    transform: scale(0,0);
+    align-items: center;
+    justify-content: center;
+}
+#lightbox:target {
+    transform: scale(1,1);
+}
+.close {
+    position: absolute;
+    width: 2em;
+    height: 2em;
+    background-color: red;
+    top: -1em;
+    right: -1em;
+    border-radius: 50%;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.close::after{
+    content: 'X';
+    color: white;
+    font-weight: 800;
+
+}
+.port-content {
+    background-color: black;
+    padding: 1em;
+    padding-bottom: 0;
+    position: relative;
+    /* width: fit-content; */
+    margin-top: 10%;
+}
+/* END OF LIGHTBOX */
+#account {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 600;
+    font-size: 180%;
+    background-color: rgb(218, 218, 218);
+}
+.event {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 150%;
+}
+#footer {
+    background-color: black;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 130%;
+    color: #ffe22f !important;
+    display: flex;
+    flex-direction: row;
+
+    padding: 3%;
+}
+
+#flex1{
+    float: left;
+    margin-right: 5%;
+    display: flex;
+    flex-direction: row;
+}
+
+.creds {
+    color: #ffe22f !important;
+    text-decoration: none;
+}
+.creds:hover{
+    color: #32ca6f !important;
+}
+.rent{
+  font-size: 20px;
+}
+/* DRAG N DROP STARTS */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+.app {
+	display: flex;
+	flex-flow: column;
+
+	width: 100vw;
+	height: 100vh;
+}
+
+.lists {
+    font-family: 'Josefin Sans', sans-serif;
+    color: black;
+    font-size: x-large;
+    font-weight: 700;
+	display: flex;
+	flex: 1;
+	width: 100%;
+}
+
+.lists .list {
+	display: flex;
+	flex-flow: column;
+	flex: 1;
+
+	width: 100%;
+	max-height: fit-content;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.1);
+	margin: 0 2%;
+	padding: 2%;
+	transition: all 0.2s linear;
+}
+
+.lists .list .list-item {
+	background-color: #F3F3F3;
+	border-radius: 8px;
+	padding: 15px 20px;
+	text-align: center;
+	margin: 4px 0px;
+}
+
+
+/* DRAG N DROP ENDS */
+h1 {
+    font-family: 'Josefin Sans', sans-serif;
+}
+h2 {
+    font-family: 'Josefin Sans', sans-serif;
+}
+h3{
+    font-family: 'Josefin Sans', sans-serif;
+}
+h4{
+    font-family: 'Josefin Sans', sans-serif;
+}
+h5{
+    font-family: 'Josefin Sans', sans-serif;
+}
+#ad {
+    font-size: 180%;
+    font-weight: 900;
+}
+#ad:hover {
+    color: #32ca6f !important;
+    transition-duration: 0.4s;
+}
+/* CHAT POPUP */
+* {box-sizing: border-box;}
+#myForm {
+  height: 200px;
+  overflow-y: scroll;
+}
+.open-button {
+  background-color: #44449C;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  left: 28px;
+  width: 200px;
+}
+
+
+.chat-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+.form-container textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  resize: none;
+  min-height: 200px;
+}
+
+.form-container textarea:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.form-container .btn {
+  background-color: #32ca6f;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+.form-container .cancel {
+  background-color: #ef3e44;
+  width: 200px;
+}
+
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+/* CHAT POPUP END */
+
+
+#section {
+    background-color: whitesmoke;
+    /* padding: 3%; */
+    padding-top: 5%;
+    padding-bottom: 5%;
+
+}
+#collect {
+    display: flex;
+    flex-direction: row;
+}
+.new {
+    margin-left: 15%;
+}

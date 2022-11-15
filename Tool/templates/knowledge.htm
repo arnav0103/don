@@ -1,0 +1,26 @@
+{%extends 'base.htm'%}
+
+{%block content%}
+<br><br><br><br><br><br>
+  <a class="addition" href="{{url_for('make_knowledge' , team_id = team_id)}}">
+    <i class="fa fa-plus-square-o" style="font-size:24px"></i>
+    Add knowledge for your team</a><br>
+  {%for know in knowledge%}
+
+  <div class="allcards" style="display:inline-block;">
+  <div class="card" style="width: 20rem;">
+    <div class="card-body">
+      <h2 class="card-title">{{know.title}}</h2>
+      {%if know.image%}
+      <a href="{{url_for('static' , filename = know.image)}}">
+        <img src="{{url_for('static' , filename = know.image)}}" class="card-img-top" >
+      </a>
+
+      {%endif%}
+      <p style="font-size: larger;" class="card-text">{{know.content[:20]}}..</p>
+      <a style="font-size: larger; font-weight: 700;" href="{{url_for('single_knowledge' , knowledge_id = know.id , team_id = know.teamid)}}">Read More</a>
+  </div>
+</div>
+</div>
+  {%endfor%}
+{%endblock%}

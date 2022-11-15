@@ -1,0 +1,24 @@
+{%extends 'base.htm'%}
+
+{%block content%}
+<div class="container col trial" align = center>
+  <br><br><br><br>
+  <h1>Join a Team </h1>
+  <form  method="POST">
+    {{form.hidden_tag()}}
+    <div class="form-group">
+      <small class = 'text-danger'></small>
+      {{form.randomid.label}}{{form.randomid(class = 'form-control col-md-6' ,placeholder="Team Id" )}}
+      <small id="emailHelp" class="form-text text-muted">Get it from the owner of the Team.</small>
+      <small class = 'text-danger'>{{error}}</small>
+    </div>
+    <div class="form-group">
+      {{form.team_password.label}}{{form.team_password(class = 'form-control col-md-6' ,placeholder="Password" )}}
+    </div>
+    <div class="form-group">
+      {{form.submit(class ="btn btn-primary change")}}
+    </div>
+  </form>
+</div>
+
+{%endblock%}

@@ -1,0 +1,108 @@
+
+    <!-- END OF NAVBAR -->
+{%extends 'base.htm'%}
+{%block content%}
+<div id="home">
+<p id="quote">"Your Opportunities meet their planning here."</p>
+</div>
+
+<div class="about">
+  <!-- JUMBOTRON -->
+
+  <div id="jumbo">
+    <h1 class="display-4">About Us</h1>
+    <p class="lead" style="font-size: 170%;">Organiziva helps you in prioritizing your tasks in an organised way while taking into consideration
+   the mental fatigue that employees may suffer from while working remotely.
+   </p>
+    <hr class="my-4">
+    <p class="lead" style="font-size: 170%;">Sign up now and plan out your tasks with Organiziva for free.</p>
+
+  </div>
+
+  <!-- JUMBOTRON ENDED -->
+<img data-aos="fade-left" style="float: right; width: 50%; margin-left: 2%;" src="{{url_for('static', filename="online_organizer.png")}}">
+</div>
+
+
+<div class="about" id="connect">
+  <img data-aos="fade-right" style="float: left; width: 50%;" src="{{url_for('static', filename="taskk.png")}}">
+  <div style="float: right;margin-left: 3%; width: 45%;font-size: 170%;" id="info">
+    <h1 class="display-4">Work together</h1>
+    <div style="text-align: left;">
+   Make your own team or join a new one by getting the id from the owner. Remember: Only the owner
+   (the person who has created the team) can add new events to the team's database. 
+   Team members can work on the given task and change its status as the work progresses.
+  </div>
+  </div>
+</div>
+
+<div id="section">
+  <h1 align = "center" class="display-4">What's New?</h1><br><br>
+  <div id="collect">
+  <div class="new" id="one">
+    <i class="fas fa-calendar-alt" style="font-size:96px; color: #32ca6f;"></i>
+  </div>
+  <div class="new" id="two">
+    <i class="fa fa-commenting" style="font-size:96px;color:#ef3e44"></i>
+  </div>
+  <div class="new" id="three">
+    <i class="fa fa-video-camera" style="font-size:96px; color: #44449C;"></i>
+  </div>
+  <div class="new" id="four">
+    <i class="fas fa-robot" style="font-size:96px; color: #ffe22f;"></i>
+  </div>
+</div>
+</div>
+
+<div class="about">
+  
+  <div style="float: left;margin-left: 3%; width: 45%;font-size: 170%;" id="info">
+    <h1 class="display-4">Help Your Team-mates</h1>
+    <div style="text-align: left;">
+   We present you our Knowledge Panel where you can post information to help your team members out. 
+   The 'StackOverflow' of your company is here. Interns and new employees can come here to get information about any 
+   task or project.
+
+  
+  </div>
+  </div>
+  <img data-aos="fade-left" style="float: right; width: 50%;" src="{{url_for('static', filename="innov.png")}}">
+</div>
+
+<div style="margin: 0; padding: 0;" class="about">
+  <img data-aos="fade-right" style="float: left; width: 35%; margin: 3%;" src="{{url_for('static', filename="rem.png")}}">
+  <div style="float: right;margin-left: 3%; width: 45%;font-size: 170%; margin: 3%;" id="info">
+    <h1 class="display-4">Remote Working</h1>
+    <div style="text-align: left;">
+     With remote working being the new 'normal', we bring to you our 'Rent' feature where you can post your items for renting to people.
+      You can go through the items already in the database and contact the owner of that item to rent it if you want to. <br> 
+     <br>
+   We help you battle with mental stress/fatigue by providing you the melody of nature through our music playlist
+   (Preferably listen with your headphones on).
+  </div>
+  </div>
+</div>
+
+<div id="footer">
+  
+<div id="flex1">
+  <p text-align = "right">Developed by:
+
+  <p><a style="margin-left: 1em;" class="creds" href="https://github.com/arnav0103">@arnav0103</a></p>
+  <p><a style="margin-left: 1em;" class="creds" href="https://github.com/tijilchhabra1729">@tijilchhabra1729</a></p>
+  <p><a style="margin-left: 1em;" class="creds" href="https://github.com/Nandini-13">@Nandini-13</a></p>
+      </p>
+</div>
+<div id="flex2">
+  -Team DPS Rohini
+</div>
+</div>
+
+<script src="{{url_for('static', filename="type.js")}}"></script>
+<script>
+  AOS.init({
+    duration: 1200,
+  });
+</script>
+
+{%endblock%}

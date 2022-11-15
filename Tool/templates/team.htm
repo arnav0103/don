@@ -1,0 +1,229 @@
+{%extends 'base.htm'%}
+{%block head%}
+<style >
+body {
+  font-family: "Lato", sans-serif;
+  transition: background-color .5s;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+#mySidenav{
+  color: white !important;
+}
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+{%endblock%}
+{%block content%}
+
+<div id="mySidenav" class="sidenav">
+
+  <a href="javascript:void(0)" id = "mySidenav" style="font-size: 30px;" align = "right" onclick="closeNav()">x</a>
+  {%for user in team.workers%}
+<div >
+  <h5 style="margin: 1em; display: inline-block;"><img style="border-radius: 100%;" height="30px" width="auto"  src="{{url_for('static' , filename = user.profile_image)}}" alt="">  {{user.username}}</h5>
+
+</div>
+{%endfor%}
+</div>
+
+<div id="main">
+  <br><br><br><br><br>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Users</span>
+<iframe id = "reach" style="top: 0;" hidden="true" height="0px"></iframe>
+{%if team_owner == current_user.id%}
+  <a style=" padding: 0.61% ;border-radius: 7%;" class="addition" href="{{url_for('team_account' , team_id = team_id)}}">Account</a>
+
+{%endif%}
+<a style=" padding: 0.61% ;border-radius: 7%;" class="addition" href="{{url_for('all_knowledge' , team_id = team_id)}}">Knowledge Panel</a>
+<a style=" padding: 0.61% ;border-radius: 7%;" class="addition" href="{{url_for('sessions' , teamid = team_id)}}">Chat</a>
+<!-- MUSIC LIGHTBOX STARTS -->
+<div class="portfolio">
+  <div class="portfolio-item">
+      <a href="#lightbox" title="Relaxing Music" class="button"><img style="float: right; margin-bottom: 3% ;padding: 0.2%; margin-right: 3%; border-radius: 50%; border: 1px solid rgb(201, 0, 94);" src="{{url_for('static', filename="head.png")}}" alt="Music to deal with fatigue"  width="70px"></a>
+  </div>
+</div>
+
+<div id="lightbox">
+  <div class="port-content">
+      <a href="#reach" class="close"></a>
+      <h2>Relax To The Beat of Nature!</h2>
+      <ul>
+          <li style="font-size: larger;">
+              Rolling thunder & Rain <br>
+              <audio controls>
+                  <source src="{{url_for('static' , filename = "rain.ogg")}}" type="audio/ogg">
+                  <source src="{{url_for('static' , filename = "rain.mp3")}}" type="audio/mpeg">
+                Your browser does not support the audio element.
+                </audio>
+          </li>
+          <li style="font-size: larger;">
+              Some minutes of Sand & Sea &nbsp;
+              <audio controls>
+                <source src="{{url_for('static' , filename = "sand.ogg")}}" type="audio/ogg">
+                <source src="{{url_for('static' , filename = "sand.mp3")}}" type="audio/mpeg">
+                Your browser does not support the audio element.
+                </audio>
+          </li>
+          <li style="font-size: larger;">
+              Nature Meditation <br>
+              <audio controls>
+                <source src="{{url_for('static' , filename = "virtual.ogg")}}" type="audio/ogg">
+                <source src="{{url_for('static' , filename = "virtual.mp3")}}" type="audio/mpeg">
+                Your browser does not support the audio element.
+                </audio>
+          </li>
+          <li style="font-size: larger;">
+              Flute & Nature Composition<br>
+              <audio controls>
+                <source src="{{url_for('static' , filename = "flute.ogg")}}" type="audio/ogg">
+                <source src="{{url_for('static' , filename = "flute.mp3")}}" type="audio/mpeg">
+                Your browser does not support the audio element.
+                </audio>
+          </li>
+      </ul>
+  </div>
+</div>
+
+
+
+<div class="lists">
+  <div class="list">
+    {%if team_owner == current_user.id%}
+      <a title="Add Event" align = "center" href="{{url_for('make_upcoming' , team_id = team_id , type = 'upcoming')}}">
+        <i class="fa fa-calendar-plus-o" style="font-size:24px"></i>
+        Upcoming</a>
+    {%else%}
+    <center>Upcoming</center>
+    {%endif%}
+    {%if team_upcoming%}
+      {%for event in team_upcoming%}
+
+      <div class = "list-item center jumbotron border">
+        {{event.title}}
+                <small id="emailHelp" class="form-text text-muted">Published :{{event.date.strftime('%d-%m-%Y/%H:%M')}}</small>
+
+        <a href="{{url_for('event' ,team_id = team_id, event_id = event.id) }}">read more</a>
+        <br>
+        {%if current_user.id == team.ownerid%}
+          <a style="font-weight: 800;" class="btn btn-primary" title = "Delete" href="{{url_for('delete_event' , team_id = team_id , event_id = event.id)}}">D</a>
+        {%endif%}
+        <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Ongoing" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'o')}}">O</a>
+        <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Completed" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'c')}}">C</a>
+        <br>
+
+      </div>
+
+      {%endfor%}
+    {%endif%}
+  </div>
+  <div class="list">
+    {%if team_owner == current_user.id%}
+      <a title="Add Event" align = "center" href="{{url_for('make_upcoming' , team_id = team_id ,type = 'ongoing')}}">
+        <i class="fa fa-calendar-plus-o" style="font-size:24px"></i>
+        Ongoing</a>
+    {%else%}
+    <center>Ongoing</center>
+    {%endif%}
+    {%if team_ongoing%}
+      {%for event in team_ongoing%}
+      <div class = "list-item jumbotron border">
+        {{event.title}}
+        <small id="emailHelp" class="form-text text-muted">Published :{{event.date.strftime('%d-%m-%Y/%H:%M')}}</small>
+
+        <a href="{{url_for('event' ,team_id = team_id, event_id = event.id )}}">read more</a>
+        <br>
+        {%if current_user.id == team.ownerid%}
+          <a style="font-weight: 800;" class="btn btn-primary" title = "Delete" href="{{url_for('delete_event' , team_id = team_id , event_id = event.id)}}">D</a>
+        {%endif%}
+        <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Upcoming" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'u')}}">U</a>
+        <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Completed" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'c')}}">C</a>
+
+
+      </div>
+      {%endfor%}
+    {%endif%}
+  </div>
+  <div class="list">
+    {%if team_owner == current_user.id%}
+      <a title="Add Event" align = "center" href="{{url_for('make_upcoming' , team_id = team_id , type = 'completed')}}">
+        <i class="fa fa-calendar-plus-o" style="font-size:24px"></i>
+        Completed</a>
+    {%else%}
+    <center>Completed</center>
+    {%endif%}
+    {%if team_completed%}
+      {%for event in team_completed%}
+      <div class = "list-item jumbotron border">
+        {{event.title}}
+        <small id="emailHelp" class="form-text text-muted">Published :{{event.date.strftime('%d-%m-%Y/%H:%M')}}</small>
+        <a href="{{url_for('event' ,team_id = team_id, event_id = event.id)}}">read more</a>
+        <br>
+        {%if current_user.id == team.ownerid%}
+          <a style="font-weight: 800;" class="btn btn-primary" title = "Delete" href="{{url_for('delete_event' , team_id = team_id , event_id = event.id)}}">D</a>
+        {%endif%}
+        <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Upcoming" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'u')}}">U</a>
+        <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Ongoing" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'o')}}">O</a>
+
+      </div>
+      {%endfor%}
+    {%endif%}
+  </div>
+</div>
+
+
+
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+
+{%endblock%}

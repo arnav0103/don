@@ -1,0 +1,30 @@
+{%extends 'base.htm'%}
+{%block content%}
+<!-- hhhh -->
+<br><br><br><br><br><br><br>
+  <div align = "center" class="container border card" style = "width : 50rem;">
+    <h1>{{knowledge.title}}</h1>
+    <br>
+    <div align="center">
+      {%if knowledge.image%}
+      <a href="{{url_for('static', filename = knowledge.image)}}">
+    <img style = "width : 20rem;"  class = "card-text" align ="center" src="{{url_for('static', filename = knowledge.image)}}">
+      </a>
+      {%endif%}
+    </div>
+    <br>
+    <p style="font-size: larger;" class = "card-text">{{knowledge.content}}</p>
+    <br>
+    <h4>By : {{knowledge.user.username}}</h4>
+    <br>
+    
+    
+    {%if current_user == knowledge.user or current_user.id == team.ownerid%}
+    
+    <a  href={{url_for('update_knowledge' , team_id = team_id, knowledge_id = knowledge.id)}}>
+      <button align = "center" style="padding: 1%; width: 100%; background-color: #44449C;" class="btn btn-primary clicks" href={{url_for('update_knowledge' , team_id = team_id, knowledge_id = knowledge.id)}}>Edit</button>
+    </a>
+      {%endif%}
+    
+  </div>
+{%endblock%}

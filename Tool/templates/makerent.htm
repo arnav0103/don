@@ -1,0 +1,44 @@
+{%extends 'base.htm'%}
+
+{%block content%}
+<div class="container col trial" align ="center">
+  <br><br><br><br>
+  <h1 align = "center">Rent Out</h1>
+  <form  method="POST" enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+    <div class="form-group">
+      {{form.thing.label}}{{form.thing(class = 'form-control col-md-6' ,placeholder="What do you want to rent out" )}}
+    </div>
+    <div class="form-group">
+      {{form.description.label}}{{form.description(class = 'form-control col-md-6' ,placeholder="Describe your product well" )}}
+      {%if form.description.errors%}
+        {%for error in form.description.errors%}
+          <small class = 'text-danger'>{{error}}</small>
+        {%endfor%}
+      {%endif%}
+    </div>
+    <div class="form-group">
+      {{form.price.label}}{{form.price(class = 'form-control col-md-6' ,placeholder="State a suitable price" )}}
+      <small id="emailHelp" class="form-text text-muted">It should be unique</small>
+      {%if form.price.errors%}
+        {%for error in form.price.errors%}
+          <small class = 'text-danger'>{{error}}</small>
+        {%endfor%}
+      {%endif%}
+    </div>
+    <div class="form-group">
+      {{form.picture.label(class="form-group")}}
+      {{form.picture(class="form-control-file col-md-6")}}
+      {%if form.picture.errors%}
+        {%for error in form.picture.errors%}
+          <small class = 'text-danger'>{{error}}</small>
+        {%endfor%}
+      {%endif%}
+    </div>
+    <div class="form-group">
+      {{form.submit(class ="btn btn-primary change")}}
+    </div>
+  </form>
+
+</div>
+{%endblock%}

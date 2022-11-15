@@ -1,0 +1,8 @@
+{%extends 'base.htm'%}
+
+{%block content%}
+<br><br><br><br>
+{%for user in team.workers%}
+  <h1 style="margin: 1em; display: inline-block;"><i class="fa fa-user" style="font-size: 36px; color: #ef3e44;"></i>{{user.username}}</h1>
+{%endfor%}
+{%endblock%}

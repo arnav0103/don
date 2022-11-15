@@ -1,0 +1,27 @@
+{%extends 'base.htm'%}
+
+{%block content%}
+<br><br><br><br><br>
+<a style="margin-right: 5%;" id="ad" class = 'clicks' href="{{url_for('make_rental')}}">Advertise Here</a>
+<br><br>
+{%for r in rent%}
+  <a href = '{{url_for('single_rent' , rent_id = r.id)}}'>
+    <div class="card" style="width: 18rem; display:inline-block;">
+      <a href = '{{url_for('single_rent' , rent_id = r.id)}}' class="card-title"><h3 style="font-weight: 800;">{{r.thing}}</h3></a>
+      <a href="{{url_for('static' , filename = r.image)}}">
+      <img height="190vh" width = "100vw" src="{{url_for('static' , filename = r.image)}}" class="card-img-top" alt="image can't load">
+      </a>
+      <div class="card-body">
+        <h5 style="font-weight: 800;" class="card-title">Price :- ₹{{r.price}}(per month)</h5>
+
+        <p style="font-family: 'Josefin Sans', sans-serif; font-size: larger;" class="card-text">{{r.description[:20]}} ...</p>
+        <a style="font-size: larger; font-weight: 600;" href="{{url_for('single_rent' , rent_id = r.id)}}">Read More</a>
+    </div>
+    <h3>Contact {{r.user.email}}</h3>
+  </a>
+  </div>
+
+
+
+{%endfor%}
+{%endblock%}
