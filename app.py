@@ -492,13 +492,9 @@ def sessions(teamid):
     team = Team.query.filter_by(randomid=teamid).first()
     if team is None or current_user not in team.workers:
         abort(403)
-<<<<<<< HEAD
     return render_template('chat.html', team=team)
-=======
-    return render_template('chat.html')
 
 
->>>>>>> e806f47b556340a8e28ad75378ccceae3d42b1fb
 def messageReceived(methods=['GET', 'POST']):
     print('message was received!!!')
 
