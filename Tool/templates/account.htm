@@ -1,53 +1,100 @@
 {%extends "base.htm"%}
-{%block content%}
-<br><br><br><br><br><br>
+{%block content%}<br><br>
+<div class=" h-screen overflow-hidden flex items-center justify-center">
 <div class="container jumbotron" id="account">
   <div align='center'>
-    <h1>Welcome To the Page for {{current_user.username}}</h1>
-    Your Profile Image: <br>
-    <a href="{{profile_image}}">
-    <img align = 'center' src="{{profile_image}}" >
-    </a>
+    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome {{current_user.username}}</h1>
+    
+<h4 class="text-2xl font-bold dark:text-white">Your Profile Image : </h4>
+<a href="{{profile_image}}"><div class="avatar online">
+  <div class="w-24 rounded-full">
+    <img src="{{profile_image}}
+    " />
+  </div>
+</div>
+</a>
+    <img align = 'center' src="" >
+    
 
   </div>
   <div class="container " align ="center">
     <form method="POST" action = "" enctype="multipart/form-data">
       {{form.hidden_tag()}}
-      <div class="form-group">
-          {{form.username.label(class="form-group")}}
-          {{form.username(class="form-control col-md-6")}}
+      <!-- component -->
+<div class="flex items-center justify-center p-12">
+  <!-- Author: FormBold Team -->
+  <!-- Learn More: https://formbold.com -->
+  <div class="mx-auto w-full max-w-[550px] ">
+    <form
+      class="py-6 px-9"
+      action="https://formbold.com/s/FORM_ID"
+      method="POST"
+    >
+      <div class="mb-5">
+        <label
+          for="email"
+          class="mb-3 block text-base font-medium text-[#07074D]"
+        >
+          Your Username:
+        </label>
+        {{form.username(class="w-full rounded-md border border-[#e0e0e0]  py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md")}}
           {%if form.username.errors%}
             {%for error in form.username.errors%}
               <small class = 'text-danger'>{{error}}</small>
             {%endfor%}
           {%endif%}
+        
       </div>
-      <div class="form-group">
-        {{form.email.label(class="form-group")}}
-        {{form.email(class="form-control col-md-6")}}
+      <div class="mb-5">
+        <label
+          for="email"
+          class="mb-3 block text-base font-medium text-[#07074D]"
+        >
+          Your Email:
+        </label>
+        {{form.email(class="w-full rounded-md border border-[#e0e0e0]  py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md")}}
         {%if form.email.errors%}
           {%for error in form.email.errors%}
             <small class = 'text-danger'>{{error}}</small>
           {%endfor%}
         {%endif%}
+        
+        
       </div>
-      <div class="form-group">
-        {{form.picture.label(class="form-group")}}
-        {{form.picture(class="form-control-file col-md-6")}}
+
+      <div class="mb-6 pt-4">
+        <label class="mb-5 block text-xl font-semibold text-[#07074D]">
+          Upload File
+        </label>
+
+        <div class="mb-8">
+          {{form.picture(class="relative rounded-full flex min-h-[200px] items-center justify-center rounded-md border border-dashed border-[#e0e0e0] p-12 text-center")}}
         {%if form.picture.errors%}
           {%for error in form.picture.errors%}
             <small class = 'text-danger'>{{error}}</small>
           {%endfor%}
         {%endif%}
+          
+            
+          </label>
+        </div>
+
+       
+         
       </div>
-      <div class="form-group">
-        {{form.submit(class = 'btn btn-primary change')}}
-        <a class = "btn btn-primary change" href="{{url_for('your_rental')}}">Your rentals</a>
+
+      <div>
+        {{form.submit(class = 'hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none')}}
+        
       </div>
+    </form>
+  </div>
+</div>
     </form>
 
   </div>
 
+</div>
 </div>
 
 

@@ -271,9 +271,14 @@ def team_account(team_id):
 @login_required
 def all_teams():
     teams = []
+    length=[]
     for team in current_user.teams:
         teams.append(team)
-    return render_template('all_teams.htm', teams=teams)
+        temp=0
+        for i in team.workers:
+            temp+=1
+        length.append(temp)
+    return render_template('all_teams.htm', teams=teams,length=length)
 
 
 @app.route('/makerental', methods=['GET', 'POST'])

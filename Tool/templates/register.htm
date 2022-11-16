@@ -1,62 +1,97 @@
 {%extends 'base.htm'%}
 
 {%block content%}
-<div class="container col trial" align ="center">
-  <br><br><br><br>
-  <h1 align = "center">Register</h1>
-  <form  method="POST" enctype="multipart/form-data">
-    {{form.hidden_tag()}}
-    <div class="form-group">
-      {{form.name.label}}{{form.name(class = 'form-control col-md-6' ,placeholder="Name" )}}
-    </div>
-    <div class="form-group">
-      {{form.email.label}}{{form.email(class = 'form-control col-md-6' ,placeholder="Email" )}}
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-      {%if form.email.errors%}
-        {%for error in form.email.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-    </div>
-    <div class="form-group">
-      {{form.username.label}}{{form.username(class = 'form-control col-md-6' ,placeholder="Username" )}}
-      <small id="emailHelp" class="form-text text-muted">It should be unique</small>
-      {%if form.username.errors%}
-        {%for error in form.username.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-    </div>
-    <div class="form-group">
-      {{form.password.label}}{{form.password(class = 'form-control col-md-6' ,placeholder="Password" )}}
+<!-- component -->
+<script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
 
-      {%if form.password.errors%}
-        {%for error in form.password.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-    </div>
-    <div class="form-group">
-      {{form.pass_confirm.label}}{{form.pass_confirm(class = 'form-control col-md-6' ,placeholder="Reenter Password" )}}
+<!-- page -->
+<main class="relative min-h-screen w-full ">
+    <!-- component -->
+    <div class="p-2.5" x-data="app">
+      
+      <section
+            class="absolute top-1/2 left-1/2 mx-auto max-w-sm -translate-x-1/2 -translate-y-1/2 transform space-y-4 text-center">
+            <!-- register content -->
+            <div x-show="isLoginPage" class="space-y-4">
+                <header class="mb-3 text-2xl font-bold">Register</header>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                {{form.name(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder=" Full Name" )}}
+                      
+                </div>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                  {{form.email(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Email" )}}
+                  {%if form.email.errors%}
+                  {%for error in form.email.errors%}
+                    <small class = 'text-danger'>{{error}}</small>
+                  {%endfor%}
+                {%endif%}
+                </div>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                  {{form.username(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Username" )}}
+                  {%if form.username.errors%}
+                  {%for error in form.username.errors%}
+                    <small class = 'text-danger'>{{error}}</small>
+                  {%endfor%}
+                {%endif%}
+                </div>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                  {{form.password(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Password" )}}
+                  {%if form.password.errors%}
+                  {%for error in form.password.errors%}
+                    <small class = 'text-danger'>{{error}}</small>
+                  {%endfor%}
+                {%endif%}
+                </div>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                  {{form.pass_confirm(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Reenter Password" )}}
       {%if form.pass_confirm.errors%}
         {%for error in form.pass_confirm.errors%}
           <small class = 'text-danger'>{{error}}</small>
         {%endfor%}
       {%endif%}
-    </div>
-    <div class="form-group">
-      {{form.picture.label(class="form-group")}}
-      {{form.picture(class="form-control-file col-md-6")}}
-      {%if form.picture.errors%}
+                </div>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                  {{form.pass_confirm(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Reenter Password" )}}
+      {%if form.pass_confirm.errors%}
+        {%for error in form.pass_confirm.errors%}
+          <small class = 'text-danger'>{{error}}</small>
+        {%endfor%}
+      {%endif%}
+                </div>
+
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+                 
+					<div class="flex items-center space-x-2">
+						
+						{{form.picture(class="px-4 py-2 border rounded-full bg-grey-900 border-gray-100")}}
+            {%if form.picture.errors%}
         {%for error in form.picture.errors%}
           <small class = 'text-danger'>{{error}}</small>
         {%endfor%}
       {%endif%}
-    </div>
-    <div class="form-group">
-      {{form.submit(class ="btn btn-primary change")}}
-    </div>
-  </form>
+					</div>
+                </div>
+                {{form.submit(class ="w-full rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400")}}
+                
+            </div>
 
-</div>
+           
+
+                <div class="mt-8 text-sm text-gray-400">
+                    By signing in to ********, you agree to our
+                    <a href="#" class="font-medium text-gray-500">Terms</a> and
+                    <a href="#" class="font-medium text-gray-500">Privacy Policy</a>.
+                </div>
+            </footer>
+        </section>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("alpine:init", () => {
+        Alpine.data("app", () => ({
+            isLoginPage: true,
+        }));
+    });
+</script>
 {%endblock%}
