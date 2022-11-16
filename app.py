@@ -492,20 +492,21 @@ def delete_event(event_id, team_id):
         return redirect(url_for('team', team_id=team_id))
 
 
-@app.route('/vc')
-def vc():
-    return render_template('vc.html')
+@app.route('/vc/<team_id>')
+def vc(team_id):
+    return render_template('vc.html',team_id=team_id)
 
 
 @app.route('/vc_login', methods=['POST'])
 def vc_login():
     username = request.get_json(force=True).get('username')
+    room1 = request.get_json(force=True).get('id_t')
     if not username:
         abort(401)
 
     token = AccessToken(twilio_account_sid, twilio_api_key_sid,
                         twilio_api_key_secret, identity=username)
-    token.add_grant(VideoGrant(room='My Room'))
+    token.add_grant(VideoGrant(room=room1+'hey'))
 
     return {'token': token.to_jwt().decode()}
 

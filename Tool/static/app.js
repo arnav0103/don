@@ -1,4 +1,5 @@
 const usernameInput = document.getElementById('username');
+const idInput = document.getElementById('id_t');
 const button = document.getElementById('join_leave');
 const shareScreen = document.getElementById('share_screen');
 const container = document.getElementById('container');
@@ -20,13 +21,14 @@ function connectButtonHandler(event) {
     event.preventDefault();
     if (!connected) {
         let username = usernameInput.value;
+        let id_t = idInput.value;
         if (!username) {
             alert('Enter your name before connecting');
             return;
         }
         button.disabled = true;
         button.innerHTML = 'Connecting...';
-        connect(username).then(() => {
+        connect(username,id_t).then(() => {
             button.innerHTML = 'Leave call';
             button.disabled = false;
             shareScreen.disabled = false;
@@ -45,12 +47,12 @@ function connectButtonHandler(event) {
     }
 };
 
-function connect(username) {
+function connect(username,id_t) {
     let promise = new Promise((resolve, reject) => {
         // get a token from the back end
         fetch('/vc_login', {
             method: 'POST',
-            body: JSON.stringify({'username': username})
+            body: JSON.stringify({'username': username , 'id_t' : id_t})
         }).then(res => res.json()).then(data => {
             // join video call
             return Twilio.Video.connect(data.token);
