@@ -317,7 +317,8 @@ def all_rental():
 def single_rent(rent_id):
     rent = Application.query.filter_by(id=rent_id).first()
     image = url_for('static', filename=rent.image)
-    return render_template('single_rent.htm', rent=rent, image=image)
+    rent_id=str(rent.id)
+    return render_template('single_rent.htm', rent=rent, image=image,rent_id=rent_id)
 
 
 # @app.route('/<rent_id>/update', methods=['GET', 'POST'])
@@ -354,16 +355,16 @@ def single_rent(rent_id):
 #         return render_template('update.htm', image=image, rent=rent, form=form, rent_id=rent_id)
 
 
-# @app.route('/<rent_id>/delete', methods=['GET', 'POST'])
-# @login_required
-# def delete(rent_id):
-#     rent = Rent.query.get_or_404(rent_id)
-#     if rent.user != current_user:
-#         abort(403)
-#     db.session.delete(rent)
-#     db.session.commit()
-#     flash('Rent deleted')
-#     return redirect(url_for('all_rental'))
+@app.route('/<rent_id>/delete', methods=['GET', 'POST'])
+@login_required
+def delete(rent_id):
+    rent = Application.query.get_or_404(rent_id)
+    if rent.user != current_user or current_user.username != 'don_jokerman':
+        abort(403)
+    db.session.delete(rent)
+    db.session.commit()
+    flash('Rent deleted')
+    return redirect(url_for('all_rental'))
 
 
 # @app.route('/yourrental', methods=['GET', 'POST'])
@@ -504,11 +505,18 @@ def delete_event(event_id, team_id):
 
 
 @app.route('/vc/<team_id>')
+@login_required
 def vc(team_id):
+    team = Team.query.filter_by(randomid=team_id).first()
+    if team:
+        if current_user.role == 0:
+            abort(403)
+    print(team)
     return render_template('vc.html',team_id=team_id)
 
 
 @app.route('/vc_login', methods=['POST'])
+@login_required
 def vc_login():
     username = request.get_json(force=True).get('username')
     room1 = request.get_json(force=True).get('id_t')
