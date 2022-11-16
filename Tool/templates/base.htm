@@ -30,15 +30,31 @@
         </label>
         <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-black rounded-box w-52">
           {%if current_user.is_authenticated%}
-          <a class = "clicks" href="{{url_for('all_rental')}}">Rent</a>
+          <a class = "clicks" href="{{url_for('all_rental')}}">Apply to be a member</a>
+          <a class="clicks" href="{{url_for('account')}}">Account</a>
+          <a class="clicks" href="{{url_for('logout')}}">Logout</a>
+          {elif current_user.role = 2}
           <a class="clicks" href="{{url_for('make_team')}}">Make Team</a>
           <a class="clicks" href="{{url_for('join_team')}}">Join Team</a>
           <a class="clicks" href="{{url_for('all_teams')}}">Your Teams</a>
           <a class="clicks" href="{{url_for('account')}}">Account</a>
           <a class="clicks" href="{{url_for('logout')}}">Logout</a>
+          <a class="clicks" href="{{url_for('inventory')}}">Inventory</a>
+          {elif current_user.role = 1}
+          <a class="clicks" href="{{url_for('make_team')}}">Make Team</a>
+          <a class="clicks" href="{{url_for('join_team')}}">Join Team</a>
+          <a class="clicks" href="{{url_for('all_teams')}}">Your Teams</a>
+          <a class="clicks" href="{{url_for('account')}}">Account</a>
+          <a class="clicks" href="{{url_for('logout')}}">Logout</a>
+          {elif current_user.role = 0}
+          <a class="clicks" href="{{url_for('join_team')}}">Join Team</a>
+          <a class="clicks" href="{{url_for('all_teams')}}">Your Teams</a>
+          <a class="clicks" href="{{url_for('account')}}">Account</a>
+          <a class="clicks" href="{{url_for('logout')}}">Logout</a>
           {%else%}
-          <li><a href="{{url_for('register')}}">Register</a></li>
-          <li><a href="{{url_for('login')}}">Login</a></li>
+          <a class="clicks nav-item active" href="{{url_for('register')}}">Register</a>
+          <a class="clicks nav-item active" href="{{url_for('login')}}">Login</a>
+          <a class = "clicks" href="{{url_for('all_rental')}}">Apply to be a member</a>
           {%endif%}
         </ul>
       </div>
