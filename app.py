@@ -287,10 +287,10 @@ def make_rental():
         id = current_user.id
         pic = add_rent_pic(form.picture.data, id)
         application = Application(name=form.name.data,
-                           body=form.body.data,
-                           image=pic,
-                           userid=id,
-                           price=form.price.data)
+                                  body=form.body.data,
+                                  image=pic,
+                                  userid=id,
+                                  price=form.price.data)
         db.session.add(application)
         db.session.commit()
         return redirect(url_for('all_rental'))
@@ -300,7 +300,8 @@ def make_rental():
 @app.route('/allrental', methods=['GET', 'POST'])
 @login_required
 def all_rental():
-    rent = Rent.query.filter_by(rented='No').order_by(Rent.price.asc())
+    rent = Application.query.filter_by(
+        rented='No').order_by(Application.id.asc())
     return render_template('allrent.htm', rent=rent)
 
 
