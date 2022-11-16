@@ -101,3 +101,8 @@ class UpdateKnowledgeForm(FlaskForm):
     content = TextAreaField('Content', validators=[DataRequired()])
     picture = FileField('Update Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
+
+class RoleForm(FlaskForm):
+    role = RadioField('Role' , choices = [('0','Member'), ('1', 'sub don')])
+    master = StringField('Enter master name')
+    submit = SubmitField('Update')

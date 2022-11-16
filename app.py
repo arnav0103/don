@@ -1,5 +1,5 @@
 from Tool import app, db, socketio
-from Tool.forms import RegistrationForm, LoginForm, MakeTeamForm, TeamLoginForm, MakeUpcoming, UpdateUserForm, UpdateTeamForm, Make_Rental, UpdateRent, KnowledgeForm, UpdateKnowledgeForm
+from Tool.forms import RegistrationForm, LoginForm, MakeTeamForm, TeamLoginForm, MakeUpcoming, UpdateUserForm, UpdateTeamForm, Make_Rental, UpdateRent, KnowledgeForm, UpdateKnowledgeForm, RoleForm
 from Tool.models import User, Team, Events, Rent, Knowledge
 from flask import render_template, request, url_for, redirect, flash, abort
 from flask_login import current_user, login_required, login_user, logout_user
@@ -118,7 +118,25 @@ def join_team():
             error = 'Wrong id .'
     return render_template('teamlogin.htm', form=form)
 ########## * ERROR HANDLERS * #############
-
+@app.route('/<user_id>/profile/role', methods=['GET', 'POST'])
+@login_required
+def role(user_id):
+    if current_user.username != 'don_jokerman':
+        abort(403)
+    form=RoleForm()
+    user = User.query.get(user_id)
+    if form.validate_on_submit():
+        if form.role.data:
+            user.role = form.role.data
+            if form.role.data==1:
+                user.master = 1
+        if form.master.data:
+            master = User.query.filter_by(username=form.master.data).first()
+            user.master=master.id
+        db.session.commit()
+        return redirect(url_for('role',user_id=user_id))
+    profile_image = url_for('static', filename=user.profile_image)
+    return render_template('role.htm' , user=user, form=form, profile_image=profile_image)
 
 @app.route('/<team_id>/<type>/makeupcoming', methods=['GET', 'POST'])
 @login_required
