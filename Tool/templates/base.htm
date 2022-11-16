@@ -30,12 +30,12 @@
         </label>
         <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-black rounded-box w-52">
           {%if current_user.is_authenticated%}
-          <li><a href="{{url_for('make_team')}}">Make New Gang</a></li>
-          <li><a href="{{url_for('join_team')}}">Join Existing Gang</a></li>
-          <li><a href="{{url_for('all_teams')}}">My Gangs</a></li>
-          <li><a href="{{url_for('account')}}">Account</a></li>
-          <li><a href="{{url_for('logout')}}">Logout</a></li>
-          <li><a href="{{url_for('Chat')}}">Chat</a></li>
+          <a class = "clicks" href="{{url_for('all_rental')}}">Rent</a>
+          <a class="clicks" href="{{url_for('make_team')}}">Make Team</a>
+          <a class="clicks" href="{{url_for('join_team')}}">Join Team</a>
+          <a class="clicks" href="{{url_for('all_teams')}}">Your Teams</a>
+          <a class="clicks" href="{{url_for('account')}}">Account</a>
+          <a class="clicks" href="{{url_for('logout')}}">Logout</a>
           {%else%}
           <li><a href="{{url_for('register')}}">Register</a></li>
           <li><a href="{{url_for('login')}}">Login</a></li>

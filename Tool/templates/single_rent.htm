@@ -2,20 +2,18 @@
 {%block content%}
 <!-- hhhh -->
 <br><br><br><br><br><br><br>
-  <div align = "center" class="container border card" style = "width : 50rem;">
-    <h1 style="font-weight:900;">{{rent.thing}}</h1>
-    <br>
+    {{rent.name}}
     <div align="center">
     <img style = "width : 20rem;"  class = "card-text" align ="center" src="{{image}}">
+    <h1>Body count : {{rent.body}}</h1>
+    <h1>Underground Connections : {{rent.body}}</h1>
+    <h1>Prison Years : {{rent.body}}</h1>
+    <h1>Criminal Record : {{rent.body}}</h1>
     </div>
-    <br>
-    <p style="font-family: 'Josefin Sans', sans-serif; font-weight:800; font-size: larger;" class = "card-text">{{rent.description}}</p>
-    <br>
-    <h4 style="font-weight:800;">Price :- ₹{{rent.price}}</h4>
-    <br>
-    <h2 style="font-weight:800;">Contact :- {{rent.user.email}}</h2><br>
-    {%if current_user == rent.user%}
-      <center><a class="btn btn-primary change" href="{{url_for('update' , rent_id = rent.id)}}">Edit</a></center>
+    {%if current_user == rent.user or curren_user.username=='don_jokerman'%}
+      <center><a class="btn btn-primary change" href="{{url_for('delete' , rent_id = rent.id)}}">Delete</a>
+      <a href="{{url_for('vc' , team_id=rent.name+rent.image)}}" class="btn btn-primary change">VC</a>
+    </center>
     {%endif%}
   </div>
 {%endblock%}
