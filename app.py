@@ -297,74 +297,77 @@ def make_rental():
     return render_template('makerent.htm', form=form)
 
 
-@app.route('/allrental', methods=['GET', 'POST'])
+@app.route('/application_view', methods=['GET', 'POST'])
 @login_required
 def all_rental():
-    rent = Application.query.filter_by(
-        rented='No').order_by(Application.id.asc())
-    return render_template('allrent.htm', rent=rent)
-
-
-@app.route('/<rent_id>/single', methods=['GET', 'POST'])
-@login_required
-def single_rent(rent_id):
-    rent = Rent.query.filter_by(id=rent_id).first()
-    image = url_for('static', filename=rent.image)
-    return render_template('single_rent.htm', rent=rent, image=image)
-
-
-@app.route('/<rent_id>/update', methods=['GET', 'POST'])
-@login_required
-def update(rent_id):
-    rent = Rent.query.filter_by(id=rent_id).first()
-    form = UpdateRent()
-    if rent is None:
-        abort(404)
-    elif current_user.id != rent.user.id:
-        abort(403)
+    if current_user.roles != 0:
+        rent = Application.query.filter_by(
+            rented='No').order_by(Application.id.asc())
+        return render_template('allrent.htm', rent=rent)
     else:
-        pic = rent.image
-        if form.validate_on_submit():
-            rent.thing = form.thing.data
-            rent.description = form.description.data
-            rent.price = form.price.data
-            rent.rented = form.rent.data
-            if form.picture.data is not None:
-                id = rent.id
-                pic = add_rent_pic(form.picture.data, id)
-                rent.image = pic
-                db.session.commit()
-            flash('Rent Account Updated')
-            db.session.commit()
-            return redirect(url_for('all_rental'))
-        elif request.method == 'GET':
-            form.thing.data = rent.thing
-            form.description.data = rent.description
-            form.price.data = rent.price
-            form.rent.data = rent.rented
-
-        image = url_for('static', filename=rent.image)
-        return render_template('update.htm', image=image, rent=rent, form=form, rent_id=rent_id)
-
-
-@app.route('/<rent_id>/delete', methods=['GET', 'POST'])
-@login_required
-def delete(rent_id):
-    rent = Rent.query.get_or_404(rent_id)
-    if rent.user != current_user:
         abort(403)
-    db.session.delete(rent)
-    db.session.commit()
-    flash('Rent deleted')
-    return redirect(url_for('all_rental'))
 
 
-@app.route('/yourrental', methods=['GET', 'POST'])
-@login_required
-def your_rental():
-    rent = Rent.query.filter_by(
-        userid=current_user.id).order_by(Rent.price.asc())
-    return render_template('allrent.htm', rent=rent)
+# @app.route('/<rent_id>/single', methods=['GET', 'POST'])
+# @login_required
+# def single_rent(rent_id):
+#     rent = Rent.query.filter_by(id=rent_id).first()
+#     image = url_for('static', filename=rent.image)
+#     return render_template('single_rent.htm', rent=rent, image=image)
+
+
+# @app.route('/<rent_id>/update', methods=['GET', 'POST'])
+# @login_required
+# def update(rent_id):
+#     rent = Rent.query.filter_by(id=rent_id).first()
+#     form = UpdateRent()
+#     if rent is None:
+#         abort(404)
+#     elif current_user.id != rent.user.id:
+#         abort(403)
+#     else:
+#         pic = rent.image
+#         if form.validate_on_submit():
+#             rent.thing = form.thing.data
+#             rent.description = form.description.data
+#             rent.price = form.price.data
+#             rent.rented = form.rent.data
+#             if form.picture.data is not None:
+#                 id = rent.id
+#                 pic = add_rent_pic(form.picture.data, id)
+#                 rent.image = pic
+#                 db.session.commit()
+#             flash('Rent Account Updated')
+#             db.session.commit()
+#             return redirect(url_for('all_rental'))
+#         elif request.method == 'GET':
+#             form.thing.data = rent.thing
+#             form.description.data = rent.description
+#             form.price.data = rent.price
+#             form.rent.data = rent.rented
+
+#         image = url_for('static', filename=rent.image)
+#         return render_template('update.htm', image=image, rent=rent, form=form, rent_id=rent_id)
+
+
+# @app.route('/<rent_id>/delete', methods=['GET', 'POST'])
+# @login_required
+# def delete(rent_id):
+#     rent = Rent.query.get_or_404(rent_id)
+#     if rent.user != current_user:
+#         abort(403)
+#     db.session.delete(rent)
+#     db.session.commit()
+#     flash('Rent deleted')
+#     return redirect(url_for('all_rental'))
+
+
+# @app.route('/yourrental', methods=['GET', 'POST'])
+# @login_required
+# def your_rental():
+#     rent = Rent.query.filter_by(
+#         userid=current_user.id).order_by(Rent.price.asc())
+#     return render_template('allrent.htm', rent=rent)
 
 
 @app.route('/<team_id>/users', methods=['GET', 'POST'])
