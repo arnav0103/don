@@ -1,0 +1,126 @@
+{% extends "base.htm" %}
+
+{% block content %}
+        <main class="raw-hero">
+          <div class="raw-content">
+            <h1 class="heading-1">Raw material input</h1>
+          {%if current_user.roles != 0 %}
+
+            <form method="post" class="reg-form">
+            {{form.hidden_tag()}}
+            <div class="input-wrapper">
+              <label for="milk" class="form-label">{{form.car.label}}</label>
+              {{form.car(class="form-input exceptions")}}
+            </div>
+
+            {%if form.car.errors%} {%for error in
+              form.car.errors%}
+            <small>{{error}}</small>
+            {%endfor%} {%endif%}
+
+            <div class="input-wrapper">
+              <label for="sugar" class="form-label">{{form.truck.label}}</label>
+              {{form.truck(class="form-input exceptions")}}
+            </div>
+
+            {%if form.truck.errors%} {%for error in
+              form.truck.errors%}
+            <small>{{error}}</small>
+            {%endfor%} {%endif%}
+
+            <div class="input-wrapper">
+              <label for="beans" class="form-label">{{form.helicopter.label}}</label>
+              {{form.helicopter(class="form-input exceptions")}}
+            </div>
+
+            {%if form.helicopter.errors%} {%for error in form.helicopter.errors%}
+            <small>{{error}}</small>
+            {%endfor%} {%endif%}
+
+            {{form.submit(class="btn")}}
+         </form>
+         </div>
+
+        </main>
+  {% endif %}
+  {#    <br><br><br><br><br><br>#}
+        {%if current_user.roles == 2 %}
+        <table class="table">
+          <thead>
+            <tr class="table-row">
+              <th scope="col">Time</th>
+              <!-- <th scope="col">User</th> -->
+              <th scope="col">Car</th>
+              <th scope="col">Truck</th>
+              <th scope="col">Helicopter</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%for i in range(n)%}
+            <tr>
+              <td scope="row">{{date[i].strftime('%Y-%m-%d %H:%M:%S.%f')[:-4]}}</td>
+              <!-- <td>{{user.fname}}</td> -->
+              <td>{{car[i]}}</td>
+              <td>{{truck[i]}}</td>
+              <td>{{helicopter[i]}}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+<section class="graph-content">
+    <canvas id="myChart" width="100" height="50"></canvas>
+    </section>
+            {%endif%}
+<footer class="footer">
+    <p class="footer-text">
+        Made with ❤️ by Xino
+    </p>
+</footer>
+<script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ date_gr|safe }},
+        datasets: [{
+            label: 'Car',
+            data: {{car_gr}},
+            backgroundColor:'#e73478',
+            borderColor: '#e73478',
+            tension: 0.1,
+            borderWidth: 1
+        },{
+            label: 'Truck',
+            data: {{truck_gr}},
+            fill:false,
+            backgroundColor: '#eff1f3',
+            borderColor: '#eff1f3',
+             tension: 0.1,
+            borderWidth: 1
+        },{
+            label: 'Helicopter',
+            data: {{helicopter_gr}},
+            fill:false,
+            backgroundColor: '#e3b505',
+            borderColor: '#e3b505',
+             tension: 0.1,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            title: {
+                display: true,
+                text: 'Transport Graph'
+            }
+        }
+    }
+});
+</script>
+
+{% endblock %}

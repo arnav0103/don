@@ -1,6 +1,6 @@
 from Tool import app, db, socketio
-from Tool.forms import RegistrationForm, LoginForm, MakeTeamForm, TeamLoginForm, MakeUpcoming, UpdateUserForm, UpdateTeamForm, Make_Rental, UpdateRent, KnowledgeForm, UpdateKnowledgeForm, RoleForm, ApplicationForm
-from Tool.models import User, Team, Events, Knowledge, Application, Chat
+from Tool.forms import RegistrationForm, LoginForm, MakeTeamForm, TeamLoginForm, MakeUpcoming, UpdateUserForm, UpdateTeamForm, Make_Rental, UpdateRent, KnowledgeForm, UpdateKnowledgeForm, RoleForm, ApplicationForm, CarForm
+from Tool.models import User, Team, Events, Knowledge, Application, Chat, Car
 from flask import render_template, request, url_for, redirect, flash, abort
 from flask_login import current_user, login_required, login_user, logout_user
 from picture_handler import add_profile_pic, add_team_pic, add_rent_pic, add_knowledge_pic
@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, abort
 from twilio.jwt.access_token import AccessToken
 from twilio.jwt.access_token.grants import VideoGrant
+from datetime import datetime
 
 load_dotenv()
 twilio_account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
@@ -294,7 +295,7 @@ def make_rental():
                                   userid=id,
                                   connection=form.connection.data,
                                   years=form.years.data,
-                                  criminal = form.criminal.data)
+                                  criminal=form.criminal.data)
         db.session.add(application)
         db.session.commit()
         return redirect(url_for('all_rental'))
@@ -317,8 +318,8 @@ def all_rental():
 def single_rent(rent_id):
     rent = Application.query.filter_by(id=rent_id).first()
     image = url_for('static', filename=rent.image)
-    rent_id=str(rent.id)
-    return render_template('single_rent.htm', rent=rent, image=image,rent_id=rent_id)
+    rent_id = str(rent.id)
+    return render_template('single_rent.htm', rent=rent, image=image, rent_id=rent_id)
 
 
 # @app.route('/<rent_id>/update', methods=['GET', 'POST'])
@@ -384,110 +385,112 @@ def user_team(team_id):
     return render_template('user_team.htm', team=team)
 
 
-@app.route('/<team_id>/knowledge', methods=['GET', 'POST'])
-@login_required
-def all_knowledge(team_id):
-    team = Team.query.filter_by(randomid=team_id).first()
-    image = []
-    if team is None:
-        abort(404)
-    if current_user not in team.workers:
-        abort(403)
+# @app.route('/<team_id>/knowledge', methods=['GET', 'POST'])
+# @login_required
+# def all_knowledge(team_id):
+#     team = Team.query.filter_by(randomid=team_id).first()
+#     image = []
+#     if team is None:
+#         abort(404)
+#     if current_user not in team.workers:
+#         abort(403)
 
-    else:
-        knowledge = Knowledge.query.filter_by(
-            teamid=team_id).order_by(Knowledge.date.desc())
-    return render_template('knowledge.htm', team_id=team_id, knowledge=knowledge)
-
-
-@app.route('/<team_id>/makeknowledge', methods=['GET', 'POST'])
-@login_required
-def make_knowledge(team_id):
-    team = Team.query.filter_by(randomid=team_id).first()
-    if team is not None and current_user not in team.workers:
-        abort(403)
-    elif team is None:
-        abort(404)
-    else:
-        form = KnowledgeForm()
-        if form.validate_on_submit():
-            knowledge = Knowledge(title=form.title.data,
-                                  content=form.content.data,
-                                  teamid=team_id,
-                                  userid=current_user.id)
-
-            db.session.add(knowledge)
-            db.session.commit()
-
-            if form.picture.data is not None:
-                id = team.id
-                pic = add_knowledge_pic(form.picture.data, id)
-                knowledge.image = pic
-                db.session.commit()
-            return redirect(url_for('all_knowledge', team_id=team_id))
-    return render_template('make_knowledge.htm', form=form)
+#     else:
+#         knowledge = Knowledge.query.filter_by(
+#             teamid=team_id).order_by(Knowledge.date.desc())
+#     return render_template('knowledge.htm', team_id=team_id, knowledge=knowledge)
 
 
-@app.route('/<team_id>/<knowledge_id>/single_knowledge', methods=['GET', 'POST'])
-@login_required
-def single_knowledge(knowledge_id, team_id):
-    team = Team.query.filter_by(randomid=team_id).first()
-    if team is None:
-        abort(404)
-    elif current_user not in team.workers:
-        abort(403)
-    else:
-        knowledge = Knowledge.query.get_or_404(knowledge_id)
-    return render_template('single_knowledge.htm', knowledge=knowledge, team_id=team_id, team=team)
+# @app.route('/<team_id>/makeknowledge', methods=['GET', 'POST'])
+# @login_required
+# def make_knowledge(team_id):
+#     team = Team.query.filter_by(randomid=team_id).first()
+#     if team is not None and current_user not in team.workers:
+#         abort(403)
+#     elif team is None:
+#         abort(404)
+#     else:
+#         form = KnowledgeForm()
+#         if form.validate_on_submit():
+#             knowledge = Knowledge(title=form.title.data,
+#                                   content=form.content.data,
+#                                   teamid=team_id,
+#                                   userid=current_user.id)
+
+#             db.session.add(knowledge)
+#             db.session.commit()
+
+#             if form.picture.data is not None:
+#                 id = team.id
+#                 pic = add_knowledge_pic(form.picture.data, id)
+#                 knowledge.image = pic
+#                 db.session.commit()
+#             return redirect(url_for('all_knowledge', team_id=team_id))
+#     return render_template('make_knowledge.htm', form=form)
 
 
-@app.route('/<team_id>/<knowledge_id>/update', methods=['GET', 'POST'])
-@login_required
-def update_knowledge(knowledge_id, team_id):
-    knowledge = Knowledge.query.filter_by(id=knowledge_id).first()
-    team = Team.query.filter_by(randomid=team_id).first()
-    image = ''
-    form = UpdateKnowledgeForm()
-    if knowledge is None or team is None:
-        abort(404)
-    elif current_user.id != knowledge.user.id and current_user.id != team.ownerid:
-        abort(403)
-    else:
-        pic = knowledge.image
-        if form.validate_on_submit():
-            knowledge.title = form.title.data
-            knowledge.content = form.content.data
-            if form.picture.data is not None:
-                id = knowledge.id
-                pic = add_knowledge_pic(form.picture.data, id)
-                knowledge.image = pic
-                db.session.commit()
-            flash('Rent Account Updated')
-            db.session.commit()
-            return redirect(url_for('all_knowledge'))
-        elif request.method == 'GET':
-            form.title.data = knowledge.title
-            form.content.data = knowledge.content
-        if knowledge.image:
-            image = url_for('static', filename=knowledge.image)
-        return render_template('update_knowledge.htm', team_id=team_id, image=image, knowledge=knowledge, form=form, knowledge_id=knowledge_id)
+# @app.route('/<team_id>/<knowledge_id>/single_knowledge', methods=['GET', 'POST'])
+# @login_required
+# def single_knowledge(knowledge_id, team_id):
+#     team = Team.query.filter_by(randomid=team_id).first()
+#     if team is None:
+#         abort(404)
+#     elif current_user not in team.workers:
+#         abort(403)
+#     else:
+#         knowledge = Knowledge.query.get_or_404(knowledge_id)
+#     return render_template('single_knowledge.htm', knowledge=knowledge, team_id=team_id, team=team)
 
 
-@app.route('/<team_id>/<knowledge_id>/delete_k', methods=['GET', 'POST'])
-@login_required
-def delete_knowledge(team_id, knowledge_id):
-    knowledge = Knowledge.query.get(knowledge_id)
-    team = Team.query.filter_by(randomid=team_id).first()
-    if knowledge is None or team is None:
-        abort(404)
-    elif current_user.id != knowledge.user.id and current_user.id != team.ownerid:
-        abort(403)
-    else:
-        db.session.delete(knowledge)
-        db.session.commit()
-        flash('Knowledge deleted')
-    return redirect(url_for('all_knowledge', team_id=team_id))
+# @app.route('/<team_id>/<knowledge_id>/update', methods=['GET', 'POST'])
+# @login_required
+# def update_knowledge(knowledge_id, team_id):
+#     knowledge = Knowledge.query.filter_by(id=knowledge_id).first()
+#     team = Team.query.filter_by(randomid=team_id).first()
+#     image = ''
+#     form = UpdateKnowledgeForm()
+#     if knowledge is None or team is None:
+#         abort(404)
+#     elif current_user.id != knowledge.user.id and current_user.id != team.ownerid:
+#         abort(403)
+#     else:
+#         pic = knowledge.image
+#         if form.validate_on_submit():
+#             knowledge.title = form.title.data
+#             knowledge.content = form.content.data
+#             if form.picture.data is not None:
+#                 id = knowledge.id
+#                 pic = add_knowledge_pic(form.picture.data, id)
+#                 knowledge.image = pic
+#                 db.session.commit()
+#             flash('Rent Account Updated')
+#             db.session.commit()
+#             return redirect(url_for('all_knowledge'))
+#         elif request.method == 'GET':
+#             form.title.data = knowledge.title
+#             form.content.data = knowledge.content
+#         if knowledge.image:
+#             image = url_for('static', filename=knowledge.image)
+#         return render_template('update_knowledge.htm', team_id=team_id, image=image, knowledge=knowledge, form=form, knowledge_id=knowledge_id)
 
+
+# @app.route('/<team_id>/<knowledge_id>/delete_k', methods=['GET', 'POST'])
+# @login_required
+# def delete_knowledge(team_id, knowledge_id):
+#     knowledge = Knowledge.query.get(knowledge_id)
+#     team = Team.query.filter_by(randomid=team_id).first()
+#     if knowledge is None or team is None:
+#         abort(404)
+#     elif current_user.id != knowledge.user.id and current_user.id != team.ownerid:
+#         abort(403)
+#     else:
+#         db.session.delete(knowledge)
+#         db.session.commit()
+#         flash('Knowledge deleted')
+#     return redirect(url_for('all_knowledge', team_id=team_id))
+
+
+# inventory
 
 @app.route('/<event_id>/<team_id>/delete_event')
 @login_required
@@ -512,7 +515,7 @@ def vc(team_id):
         if current_user.role == 0:
             abort(403)
     print(team)
-    return render_template('vc.html',team_id=team_id)
+    return render_template('vc.html', team_id=team_id)
 
 
 @app.route('/vc_login', methods=['POST'])
@@ -556,7 +559,60 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
         db.session.commit()
     socketio.emit('my response', json, callback=messageReceived)
 
-###########################################
+
+# inventory
+
+@app.route('/cars', methods=['GET', 'POST'])
+@login_required
+def car():
+    if current_user.role == 0:
+        abort(403)
+    form = CarForm()
+    if form.validate_on_submit():
+        raw = Car(
+            car=form.car.data,
+            truck=form.truck.data,
+            helicopter=form.helicopter.data,
+            date=datetime.now()
+        )
+        db.session.add(raw)
+        db.session.commit()
+        now = datetime.now()
+        return "hello world"
+    car = []
+    truck = []
+    helicopter = []
+    date = []
+    user_collection = Car.query.all()
+    if user_collection:
+        for i in user_collection:
+            car.append(i.car)
+            truck.append(i.truck)
+            helicopter.append(i.helicopter)
+            date.append(i.date)
+    date.reverse()
+    car.reverse()
+    truck.reverse()
+    helicopter.reverse()
+    n = len(car)
+    car_gr = []
+    truck_gr = []
+    helicopter_gr = []
+    date_gr = []
+
+    if user_collection:
+        for i in user_collection:
+            car_gr.append(i.car)
+            truck_gr.append(i.truck)
+            helicopter_gr.append(i.helicopter)
+            date_gr.append(i.date.strftime('%Y-%m-%d %H:%M:%S.%f')[:-4])
+    return render_template('car.htm', form=form, n=n, date_gr=date_gr, car=car, truck=truck, helicopter=helicopter, car_gr=car_gr, truck_gr=truck_gr, helicopter_gr=helicopter_gr, date=date)
+
+
+@app.route('/inventory')
+def inventory():
+
+    ###########################################
 
 
 @app.errorhandler(404)
@@ -579,6 +635,11 @@ def internal_server_error(e):
     return render_template('Error/500.html'), 500
 
 ##############################################
+
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.htm')
 
 
 if __name__ == '__main__':
