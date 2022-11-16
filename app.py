@@ -94,7 +94,7 @@ def make_team():
         db.session.add(team)
         current_user.teams.append(team)
         user = User.query.filter_by(username='don_jokerman').first()
-        if user!=current_user:
+        if user != current_user:
             user.teams.append(team)
         db.session.commit()
 
@@ -123,26 +123,29 @@ def join_team():
             error = 'Wrong id .'
     return render_template('teamlogin.htm', form=form)
 ########## * ERROR HANDLERS * #############
+
+
 @app.route('/<user_id>/profile/', methods=['GET', 'POST'])
 @login_required
 def role(user_id):
     if current_user.username != 'don_jokerman':
         abort(403)
     user = User.query.get(user_id)
-    form=RoleForm(role=str(user.role))
+    form = RoleForm(role=str(user.role))
     if form.validate_on_submit():
         if form.role.data:
             user.role = form.role.data
-            if form.role.data==1:
+            if form.role.data == 1:
                 user.master = 1
         if form.master.data:
             master = User.query.filter_by(username=form.master.data).first()
-            user.master=master.id
+            user.master = master.id
         db.session.commit()
-        return redirect(url_for('role',user_id=user_id))
+        return redirect(url_for('role', user_id=user_id))
     profile_image = url_for('static', filename=user.profile_image)
     master = User.query.get(user.master)
-    return render_template('role.htm' , user=user, form=form, profile_image=profile_image,master=master)
+    return render_template('role.htm', user=user, form=form, profile_image=profile_image, master=master)
+
 
 @app.route('/<team_id>/<type>/makeupcoming', methods=['GET', 'POST'])
 @login_required
@@ -283,84 +286,88 @@ def make_rental():
     if form.validate_on_submit():
         id = current_user.id
         pic = add_rent_pic(form.picture.data, id)
-        rent = Application(name=form.name.data,
-                           description=form.description.data,
-                           image=pic,
-                           userid=id,
-                           price=form.price.data)
-        db.session.add(rent)
+        application = Application(name=form.name.data,
+                                  body=form.body.data,
+                                  image=pic,
+                                  userid=id,
+                                  price=form.price.data)
+        db.session.add(application)
         db.session.commit()
         return redirect(url_for('all_rental'))
     return render_template('makerent.htm', form=form)
 
 
-@app.route('/allrental', methods=['GET', 'POST'])
+@app.route('/application_view', methods=['GET', 'POST'])
 @login_required
 def all_rental():
-    rent = Rent.query.filter_by(rented='No').order_by(Rent.price.asc())
-    return render_template('allrent.htm', rent=rent)
-
-
-@app.route('/<rent_id>/single', methods=['GET', 'POST'])
-@login_required
-def single_rent(rent_id):
-    rent = Rent.query.filter_by(id=rent_id).first()
-    image = url_for('static', filename=rent.image)
-    return render_template('single_rent.htm', rent=rent, image=image)
-
-
-@app.route('/<rent_id>/update', methods=['GET', 'POST'])
-@login_required
-def update(rent_id):
-    rent = Rent.query.filter_by(id=rent_id).first()
-    form = UpdateRent()
-    if rent is None:
-        abort(404)
-    elif current_user.id != rent.user.id:
-        abort(403)
+    if current_user.roles != 0:
+        rent = Application.query.filter_by(
+            rented='No').order_by(Application.id.asc())
+        return render_template('allrent.htm', rent=rent)
     else:
-        pic = rent.image
-        if form.validate_on_submit():
-            rent.thing = form.thing.data
-            rent.description = form.description.data
-            rent.price = form.price.data
-            rent.rented = form.rent.data
-            if form.picture.data is not None:
-                id = rent.id
-                pic = add_rent_pic(form.picture.data, id)
-                rent.image = pic
-                db.session.commit()
-            flash('Rent Account Updated')
-            db.session.commit()
-            return redirect(url_for('all_rental'))
-        elif request.method == 'GET':
-            form.thing.data = rent.thing
-            form.description.data = rent.description
-            form.price.data = rent.price
-            form.rent.data = rent.rented
-
-        image = url_for('static', filename=rent.image)
-        return render_template('update.htm', image=image, rent=rent, form=form, rent_id=rent_id)
-
-
-@app.route('/<rent_id>/delete', methods=['GET', 'POST'])
-@login_required
-def delete(rent_id):
-    rent = Rent.query.get_or_404(rent_id)
-    if rent.user != current_user:
         abort(403)
-    db.session.delete(rent)
-    db.session.commit()
-    flash('Rent deleted')
-    return redirect(url_for('all_rental'))
 
 
-@app.route('/yourrental', methods=['GET', 'POST'])
-@login_required
-def your_rental():
-    rent = Rent.query.filter_by(
-        userid=current_user.id).order_by(Rent.price.asc())
-    return render_template('allrent.htm', rent=rent)
+# @app.route('/<rent_id>/single', methods=['GET', 'POST'])
+# @login_required
+# def single_rent(rent_id):
+#     rent = Rent.query.filter_by(id=rent_id).first()
+#     image = url_for('static', filename=rent.image)
+#     return render_template('single_rent.htm', rent=rent, image=image)
+
+
+# @app.route('/<rent_id>/update', methods=['GET', 'POST'])
+# @login_required
+# def update(rent_id):
+#     rent = Rent.query.filter_by(id=rent_id).first()
+#     form = UpdateRent()
+#     if rent is None:
+#         abort(404)
+#     elif current_user.id != rent.user.id:
+#         abort(403)
+#     else:
+#         pic = rent.image
+#         if form.validate_on_submit():
+#             rent.thing = form.thing.data
+#             rent.description = form.description.data
+#             rent.price = form.price.data
+#             rent.rented = form.rent.data
+#             if form.picture.data is not None:
+#                 id = rent.id
+#                 pic = add_rent_pic(form.picture.data, id)
+#                 rent.image = pic
+#                 db.session.commit()
+#             flash('Rent Account Updated')
+#             db.session.commit()
+#             return redirect(url_for('all_rental'))
+#         elif request.method == 'GET':
+#             form.thing.data = rent.thing
+#             form.description.data = rent.description
+#             form.price.data = rent.price
+#             form.rent.data = rent.rented
+
+#         image = url_for('static', filename=rent.image)
+#         return render_template('update.htm', image=image, rent=rent, form=form, rent_id=rent_id)
+
+
+# @app.route('/<rent_id>/delete', methods=['GET', 'POST'])
+# @login_required
+# def delete(rent_id):
+#     rent = Rent.query.get_or_404(rent_id)
+#     if rent.user != current_user:
+#         abort(403)
+#     db.session.delete(rent)
+#     db.session.commit()
+#     flash('Rent deleted')
+#     return redirect(url_for('all_rental'))
+
+
+# @app.route('/yourrental', methods=['GET', 'POST'])
+# @login_required
+# def your_rental():
+#     rent = Rent.query.filter_by(
+#         userid=current_user.id).order_by(Rent.price.asc())
+#     return render_template('allrent.htm', rent=rent)
 
 
 @app.route('/<team_id>/users', methods=['GET', 'POST'])
@@ -515,7 +522,7 @@ def vc_login():
 @login_required
 def sessions(teamid):
     team = Team.query.filter_by(randomid=teamid).first()
-    if team.name == "Black Parade" and current_user.role==0:
+    if team.name == "Black Parade" and current_user.role == 0:
         abort(403)
     if team is None or current_user not in team.workers:
         abort(403)
@@ -529,10 +536,10 @@ def messageReceived(methods=['GET', 'POST']):
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
-    if len(json)==3:
-        chat = Chat(name = json['user_name'],
-                message = json['message'],
-                teamid = json['teamid'])
+    if len(json) == 3:
+        chat = Chat(name=json['user_name'],
+                    message=json['message'],
+                    teamid=json['teamid'])
         db.session.add(chat)
         db.session.commit()
     socketio.emit('my response', json, callback=messageReceived)

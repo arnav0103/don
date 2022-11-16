@@ -7,21 +7,38 @@
   <form  method="POST" enctype="multipart/form-data">
     {{form.hidden_tag()}}
     <div class="form-group">
-      {{form.thing.label}}{{form.thing(class = 'form-control col-md-6' ,placeholder="What do you want to rent out" )}}
+      {{form.name.label}}{{form.name(class = 'form-control col-md-6' ,placeholder="Full Name" )}}
     </div>
     <div class="form-group">
-      {{form.description.label}}{{form.description(class = 'form-control col-md-6' ,placeholder="Describe your product well" )}}
-      {%if form.description.errors%}
-        {%for error in form.description.errors%}
+      {{form.body.label}}{{form.body(class = 'form-control col-md-6' ,placeholder="How many Murders have you committed?" )}}
+      {%if form.body.errors%}
+        {%for error in form.body.errors%}
           <small class = 'text-danger'>{{error}}</small>
         {%endfor%}
       {%endif%}
     </div>
     <div class="form-group">
-      {{form.price.label}}{{form.price(class = 'form-control col-md-6' ,placeholder="State a suitable price" )}}
-      <small id="emailHelp" class="form-text text-muted">It should be unique</small>
-      {%if form.price.errors%}
-        {%for error in form.price.errors%}
+      {{form.criminal.label}}{{form.criminal(class = 'form-control col-md-6' ,placeholder="What is your Criminal Record?" )}}
+      {%if form.criminal.errors%}
+        {%for error in form.criminal.errors%}
+          <small class = 'text-danger'>{{error}}</small>
+        {%endfor%}
+      {%endif%}
+    </div>
+
+    <div class="form-group">
+      {{form.years.label}}{{form.years(class = 'form-control col-md-6' ,placeholder="How many Years have you been Imprisoned?" )}}
+      {%if form.years.errors%}
+        {%for error in form.years.errors%}
+          <small class = 'text-danger'>{{error}}</small>
+        {%endfor%}
+      {%endif%}
+    </div>
+
+    <div class="form-group">
+      {{form.connection.label}}{{form.connection(class = 'form-control col-md-6' ,placeholder="How many underground connections do you have?" )}}
+      {%if form.connection.errors%}
+        {%for error in form.connection.errors%}
           <small class = 'text-danger'>{{error}}</small>
         {%endfor%}
       {%endif%}
