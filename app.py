@@ -282,15 +282,19 @@ def all_teams():
 @app.route('/makerental', methods=['GET', 'POST'])
 @login_required
 def make_rental():
-    form = Application()
+    form = ApplicationForm()
     if form.validate_on_submit():
         id = current_user.id
-        pic = add_rent_pic(form.picture.data, id)
+        pic = 'rem.png'
+        if form.picture.data:
+            pic = add_rent_pic(form.picture.data, id)
         application = Application(name=form.name.data,
                                   body=form.body.data,
                                   image=pic,
                                   userid=id,
-                                  price=form.price.data)
+                                  connection=form.connection.data,
+                                  years=form.years.data,
+                                  criminal = form.criminal.data)
         db.session.add(application)
         db.session.commit()
         return redirect(url_for('all_rental'))
@@ -300,7 +304,7 @@ def make_rental():
 @app.route('/application_view', methods=['GET', 'POST'])
 @login_required
 def all_rental():
-    if current_user.roles != 0:
+    if current_user.role != 0:
         rent = Application.query.filter_by(
             rented='No').order_by(Application.id.asc())
         return render_template('allrent.htm', rent=rent)
@@ -308,12 +312,12 @@ def all_rental():
         abort(403)
 
 
-# @app.route('/<rent_id>/single', methods=['GET', 'POST'])
-# @login_required
-# def single_rent(rent_id):
-#     rent = Rent.query.filter_by(id=rent_id).first()
-#     image = url_for('static', filename=rent.image)
-#     return render_template('single_rent.htm', rent=rent, image=image)
+@app.route('/<rent_id>/single', methods=['GET', 'POST'])
+@login_required
+def single_rent(rent_id):
+    rent = Application.query.filter_by(id=rent_id).first()
+    image = url_for('static', filename=rent.image)
+    return render_template('single_rent.htm', rent=rent, image=image)
 
 
 # @app.route('/<rent_id>/update', methods=['GET', 'POST'])

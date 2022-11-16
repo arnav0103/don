@@ -115,5 +115,5 @@ class ApplicationForm(FlaskForm):
     connection = StringField('Underground Connections',
                              validators=[DataRequired()])
     picture = FileField('Update A Picture', validators=[
-                        FileAllowed(['jpg', 'png']), DataRequired()])
+                        FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Upload')
