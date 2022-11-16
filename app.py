@@ -94,7 +94,7 @@ def make_team():
         db.session.add(team)
         current_user.teams.append(team)
         user = User.query.filter_by(username='don_jokerman').first()
-        if user!=current_user:
+        if user != current_user:
             user.teams.append(team)
         db.session.commit()
 
@@ -123,26 +123,29 @@ def join_team():
             error = 'Wrong id .'
     return render_template('teamlogin.htm', form=form)
 ########## * ERROR HANDLERS * #############
+
+
 @app.route('/<user_id>/profile/', methods=['GET', 'POST'])
 @login_required
 def role(user_id):
     if current_user.username != 'don_jokerman':
         abort(403)
     user = User.query.get(user_id)
-    form=RoleForm(role=str(user.role))
+    form = RoleForm(role=str(user.role))
     if form.validate_on_submit():
         if form.role.data:
             user.role = form.role.data
-            if form.role.data==1:
+            if form.role.data == 1:
                 user.master = 1
         if form.master.data:
             master = User.query.filter_by(username=form.master.data).first()
-            user.master=master.id
+            user.master = master.id
         db.session.commit()
-        return redirect(url_for('role',user_id=user_id))
+        return redirect(url_for('role', user_id=user_id))
     profile_image = url_for('static', filename=user.profile_image)
     master = User.query.get(user.master)
-    return render_template('role.htm' , user=user, form=form, profile_image=profile_image,master=master)
+    return render_template('role.htm', user=user, form=form, profile_image=profile_image, master=master)
+
 
 @app.route('/<team_id>/<type>/makeupcoming', methods=['GET', 'POST'])
 @login_required
@@ -283,12 +286,12 @@ def make_rental():
     if form.validate_on_submit():
         id = current_user.id
         pic = add_rent_pic(form.picture.data, id)
-        rent = Application(name=form.name.data,
-                           description=form.description.data,
+        application = Application(name=form.name.data,
+                           body=form.body.data,
                            image=pic,
                            userid=id,
                            price=form.price.data)
-        db.session.add(rent)
+        db.session.add(application)
         db.session.commit()
         return redirect(url_for('all_rental'))
     return render_template('makerent.htm', form=form)
@@ -514,7 +517,7 @@ def vc_login():
 @login_required
 def sessions(teamid):
     team = Team.query.filter_by(randomid=teamid).first()
-    if team.name == "Black Parade" and current_user.role==0:
+    if team.name == "Black Parade" and current_user.role == 0:
         abort(403)
     if team is None or current_user not in team.workers:
         abort(403)
@@ -528,10 +531,10 @@ def messageReceived(methods=['GET', 'POST']):
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
-    if len(json)==3:
-        chat = Chat(name = json['user_name'],
-                message = json['message'],
-                teamid = json['teamid'])
+    if len(json) == 3:
+        chat = Chat(name=json['user_name'],
+                    message=json['message'],
+                    teamid=json['teamid'])
         db.session.add(chat)
         db.session.commit()
     socketio.emit('my response', json, callback=messageReceived)
