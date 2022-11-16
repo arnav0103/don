@@ -611,7 +611,15 @@ def car():
 
 @app.route('/inventory')
 def inventory():
+    if current_user.role == 2:
+        car = Car.query.all()
+        cars = []
+        for i in car:
+            cars.append(i)
 
+        return render_template('admin.htm', car=cars)
+    else:
+        abort(403)
     ###########################################
 
 
