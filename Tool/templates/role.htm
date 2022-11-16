@@ -15,7 +15,7 @@
       {{form.hidden_tag()}}
       <div class="form-group">
           {{form.role.label(class="form-group")}}
-          {{form.role(class="")}}
+          {{form.role(class="", value='')}}
           {%if form.role.errors%}
             {%for error in form.role.errors%}
               <small class = 'text-danger'>{{error}}</small>
@@ -24,7 +24,7 @@
       </div>
       <div class="form-group">
         {{form.master.label(class="form-group")}}
-        {{form.master(class="form-control col-md-6")}}
+        {{form.master(class="form-control col-md-6", value=master.username)}}
         {%if form.master.errors%}
           {%for error in form.master.errors%}
             <small class = 'text-danger'>{{error}}</small>

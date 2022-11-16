@@ -19,7 +19,9 @@ class User(db.Model,UserMixin):
     password_hash = db.Column(db.String(128))
     master = db.Column(db.Integer, default = 1)
     role = db.Column(db.Integer, default=0)
-    rent = db.relationship('Rent' , backref = 'user' , lazy = 'dynamic')
+    
+    application = db.relationship('Application', backref='user', lazy='dynamic')
+    knowledge = db.relationship('Knowledge', backref='user', lazy='dynamic')
     knowledge = db.relationship('Knowledge' , backref = 'user' , lazy = 'dynamic')
     teams = db.relationship('Team' , secondary = work , backref = db.backref('workers', lazy = 'dynamic'))
     def check_password(self,password):
@@ -81,23 +83,27 @@ class Events(db.Model):
         self.event = event
         self.type = type
 
-class Rent(db.Model):
-    __tablename__ = 'rent'
-    id = db.Column(db.Integer , primary_key = True)
-    thing = db.Column(db.String)
-    description = db.Column(db.String)
-    price = db.Column(db.Integer)
-    image = db.Column(db.String(64), nullable = False)
-    rented = db.Column(db.String, default = 'No')
+class Application(db.Model):
+    __tablename__ = 'application'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    body = db.Column(db.Integer)
+    criminal = db.Column(db.String)
+    years = db.Column(db.Integer)
+    connection = db.Column(db.String)
+    image = db.Column(db.String(64), nullable=False)
+    rented = db.Column(db.String, default='No')
 
-    userid = db.Column(db.Integer , db.ForeignKey('users.id'))
+    userid = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    def __init__(self,thing,description,image,userid,price):
-        self.thing = thing
-        self.description = description
-        self.image = image
+    def __init__(self, name, body, criminal, userid, years, connection, image):
+        self.name = name
+        self.body = body
+        self.criminal = criminal
         self.userid = userid
-        self.price = price
+        self.years = years
+        self.connection = connection
+        self.image = image
 class Knowledge(db.Model):
     __tablename__ = 'knowledge'
 

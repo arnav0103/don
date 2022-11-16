@@ -9,7 +9,7 @@ from Tool.models import User
 
 
 class RegistrationForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(),Email()])
+    email = StringField('Email', validators=[DataRequired(),Email(message='Allah hu akbar')])
     name = StringField('First Name', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(),EqualTo('pass_confirm', message='Passwords must match'), Length(min = 8, max=16)])
@@ -106,3 +106,14 @@ class RoleForm(FlaskForm):
     role = RadioField('Role' , choices = [('0','Member'), ('1', 'sub don')])
     master = StringField('Enter master name')
     submit = SubmitField('Update')
+
+class ApplicationForm(FlaskForm):
+    name = StringField('Full Name', validators=[DataRequired()])
+    body = IntegerField('Body Count',  validators=[DataRequired()])
+    criminal = StringField('Criminal Record', validators=[DataRequired()])
+    years = IntegerField('Years of Imprisonment', validators=[DataRequired()])
+    connection = StringField('Underground Connections',
+                             validators=[DataRequired()])
+    picture = FileField('Update A Picture', validators=[
+                        FileAllowed(['jpg', 'png']), DataRequired()])
+    submit = SubmitField('Upload')

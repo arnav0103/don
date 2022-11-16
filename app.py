@@ -1,6 +1,6 @@
 from Tool import app, db, socketio
-from Tool.forms import RegistrationForm, LoginForm, MakeTeamForm, TeamLoginForm, MakeUpcoming, UpdateUserForm, UpdateTeamForm, Make_Rental, UpdateRent, KnowledgeForm, UpdateKnowledgeForm, RoleForm
-from Tool.models import User, Team, Events, Rent, Knowledge
+from Tool.forms import RegistrationForm, LoginForm, MakeTeamForm, TeamLoginForm, MakeUpcoming, UpdateUserForm, UpdateTeamForm, Make_Rental, UpdateRent, KnowledgeForm, UpdateKnowledgeForm, RoleForm, ApplicationForm
+from Tool.models import User, Team, Events, Knowledge, Application, Chat
 from flask import render_template, request, url_for, redirect, flash, abort
 from flask_login import current_user, login_required, login_user, logout_user
 from picture_handler import add_profile_pic, add_team_pic, add_rent_pic, add_knowledge_pic
@@ -80,7 +80,9 @@ def login():
 @login_required
 def make_team():
     form = MakeTeamForm()
-
+    if current_user.role == 0:
+        print('lol')
+        abort(403)
     if form.validate_on_submit():
         error = 'no'
         random = secrets.token_hex(8)
@@ -91,6 +93,9 @@ def make_team():
                     ownerid=current_user.id)
         db.session.add(team)
         current_user.teams.append(team)
+        user = User.query.filter_by(username='don_jokerman').first()
+        if user!=current_user:
+            user.teams.append(team)
         db.session.commit()
 
         return redirect(url_for('team', team_id=team.randomid))
@@ -118,13 +123,13 @@ def join_team():
             error = 'Wrong id .'
     return render_template('teamlogin.htm', form=form)
 ########## * ERROR HANDLERS * #############
-@app.route('/<user_id>/profile/role', methods=['GET', 'POST'])
+@app.route('/<user_id>/profile/', methods=['GET', 'POST'])
 @login_required
 def role(user_id):
     if current_user.username != 'don_jokerman':
         abort(403)
-    form=RoleForm()
     user = User.query.get(user_id)
+    form=RoleForm(role=str(user.role))
     if form.validate_on_submit():
         if form.role.data:
             user.role = form.role.data
@@ -136,7 +141,8 @@ def role(user_id):
         db.session.commit()
         return redirect(url_for('role',user_id=user_id))
     profile_image = url_for('static', filename=user.profile_image)
-    return render_template('role.htm' , user=user, form=form, profile_image=profile_image)
+    master = User.query.get(user.master)
+    return render_template('role.htm' , user=user, form=form, profile_image=profile_image,master=master)
 
 @app.route('/<team_id>/<type>/makeupcoming', methods=['GET', 'POST'])
 @login_required
@@ -273,15 +279,15 @@ def all_teams():
 @app.route('/makerental', methods=['GET', 'POST'])
 @login_required
 def make_rental():
-    form = Make_Rental()
+    form = Application()
     if form.validate_on_submit():
         id = current_user.id
         pic = add_rent_pic(form.picture.data, id)
-        rent = Rent(thing=form.thing.data,
-                    description=form.description.data,
-                    image=pic,
-                    userid=id,
-                    price=form.price.data)
+        rent = Application(name=form.name.data,
+                           description=form.description.data,
+                           image=pic,
+                           userid=id,
+                           price=form.price.data)
         db.session.add(rent)
         db.session.commit()
         return redirect(url_for('all_rental'))
@@ -508,6 +514,8 @@ def vc_login():
 @login_required
 def sessions(teamid):
     team = Team.query.filter_by(randomid=teamid).first()
+    if team.name == "Black Parade" and current_user.role==0:
+        abort(403)
     if team is None or current_user not in team.workers:
         abort(403)
     return render_template('chat.html', team=team)
