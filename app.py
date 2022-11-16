@@ -275,14 +275,14 @@ def team_account(team_id):
 @login_required
 def all_teams():
     teams = []
-    length=[]
+    length = []
     for team in current_user.teams:
         teams.append(team)
-        temp=0
+        temp = 0
         for i in team.workers:
-            temp+=1
+            temp += 1
         length.append(temp)
-    return render_template('all_teams.htm', teams=teams,length=length)
+    return render_template('all_teams.htm', teams=teams, length=length)
 
 
 @app.route('/makerental', methods=['GET', 'POST'])
@@ -617,12 +617,47 @@ def car():
 @app.route('/inventory')
 def inventory():
     if current_user.role == 2:
+        return render_template('inventory.html')
+    else:
+        abort(403)
+
+
+
+@app.route('/inventory/car')
+def car_inventory():
+    if current_user.role == 2:
         car = Car.query.all()
         cars = []
         for i in car:
             cars.append(i)
 
-        return render_template('admin.htm', car=cars)
+        return render_template('car_inv.htm', car=cars)
+    else:
+        abort(403)
+
+
+@app.route('/inventory/truck')
+def truck_inventory():
+    if current_user.role == 2:
+        car = Car.query.all()
+        cars = []
+        for i in car:
+            cars.append(i)
+
+        return render_template('truck_inv.htm', car=cars)
+    else:
+        abort(403)
+
+
+@app.route('/inventory/helicopter')
+def helicopter_inventory():
+    if current_user.role == 2:
+        car = Car.query.all()
+        cars = []
+        for i in car:
+            cars.append(i)
+
+        return render_template('helicopter_inv.htm', car=cars)
     else:
         abort(403)
     ###########################################
@@ -648,11 +683,6 @@ def internal_server_error(e):
     return render_template('Error/500.html'), 500
 
 ##############################################
-
-
-@app.route('/admin')
-def admin():
-    return render_template('admin.htm')
 
 
 if __name__ == '__main__':

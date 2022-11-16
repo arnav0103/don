@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script type="text/javascript">
+  window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+
+      title:{
+      text: "Number of Cars"
+      },
+       data: [
+      {
+        type: "line",
+
+        dataPoints: [
+        
+        { x:  {{ car[-6].id }}, y: {{ car[-6].car }} },
+        { x:  {{ car[-5].id }}, y: {{ car[-5].car }} },
+        { x:  {{ car[-4].id }}, y: {{ car[-4].car }} },
+        { x:  {{ car[-3].id }}, y: {{ car[-3].car }} },
+        { x:  {{ car[-2].id }}, y: {{ car[-2].car }} },
+        { x:  {{ car[-1].id }}, y: {{ car[-1].car }} } 
+        ]
+      }
+      ]
+    });
+
+    chart.render();
+  }
+
+  </script>
+
+  
+
+ <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></head>
+<body>
+  <div id="chartContainer" style="height: 300px; width: 100%;">
+  </div>
+</body>
+</html>
