@@ -1,8 +1,15 @@
 {%extends "base.htm"%}
 {%block content%}
-<li>
-    <ul><a href="{{url_for('car_inventory')}}">Cars</a></ul>
-    <ul><a href="{{url_for('truck_inventory')}}">Trucks</a></ul>
-    <ul><a href="{{url_for('helicopter_inventory')}}">Helicopter</a></ul>
-</li>
+<style>
+    html, body{
+        height: 100%;
+    }
+</style>
+<br><br><br><br><br>
+<div class="w-[80%] mx-auto grid grid-cols-3 gap-8 place-content-center rounded text-gray-150 hover:text-graay-50">
+	<a href="{{url_for('car_inventory')}}"><button type="button" class="text-gray-50 btn border bg-neutral-600 border-[#6500ea] transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-150 hover:bg-neutral-600 hover:border-[#6500ea] active:bg-[#6500ea] h-24 w-full px-3 py-1">Cars</button></a>
+	<a href="{{url_for('truck_inventory')}}"><button type="button" class="text-gray-50 btn border bg-neutral-600 border-[#6500ea] transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-150 hover:bg-neutral-600 hover:border-[#6500ea] active:bg-[#6500ea] h-24 w-full px-3 py-1">Trucks</button></a>
+	<a href="{{url_for('helicopter_inventory')}}"><button type="button" class="text-gray-50 btn border bg-neutral-600 border-[#6500ea] transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-150 hover:bg-neutral-600 hover:border-[#6500ea] active:bg-[#6500ea] h-24 w-full px-3 py-1">Helicopter</button></a>
+</div>
+<br>
 {%endblock%}
