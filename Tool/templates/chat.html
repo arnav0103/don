@@ -1,13 +1,25 @@
 {% extends "base.htm"%}
-{% block content %}
+{%block head%}
 <style>
   html, body{
       height: 100% !important;
       background-color: #181717;
   }
+  div.scroll {
+                margin:4px, 4px;
+                padding:4px;
+                width: 1350px;
+                height: 410px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                text-align:justify;
+
+            }
   </style>
+  {%endblock%}
+  {% block content %}
     <br><br>
-<div style="margin: 10%; font-size: x-large;">
+<div style="margin: 10%; font-size: x-large;" class="scroll">
     <!-- <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3> -->
     {%for i in team.chats%}
       <b>{{i.name}} :</b>{{i.message}}
@@ -24,6 +36,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script type="text/javascript">
+      $('.scroll').scrollTop($('.scroll')[0].scrollHeight);
       var socket = io.connect('http://' + document.domain + ':' + location.port);
 
       socket.on( 'connect', function() {
