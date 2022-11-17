@@ -90,7 +90,13 @@ body {
   <a class="text-xl" style="background-color: #6500ea; padding: 1%;margin-right: 2% ;border-radius: 25px;" class="" href="{{url_for('team_account' , team_id = team_id)}}">Account</a>
 
 {%endif%}
-<a class="text-xl" style="background-color: #6500ea; padding: 1% ;border-radius: 25px;" class="" href="{{url_for('sessions' , teamid = team_id)}}">Chat</a>
+{%if team.name=="Black Parade" and current_user.role!=0%}
+<a class="text-xl" style="background-color: #6500ea; padding: 1% ;border-radius: 25px;margin-right: 2%" class="" href="{{url_for('sessions' , teamid = team_id)}}">Chat</a>
+<a class="text-xl" style="background-color: #6500ea; padding: 1% ;border-radius: 25px;" class="" href="{{url_for('vc' , team_id = team_id)}}">VC</a>
+{%elif team.name!="Black Parade"%}
+<a class="text-xl" style="background-color: #6500ea; padding: 1% ;border-radius: 25px;margin-right: 2%" class="" href="{{url_for('sessions' , teamid = team_id)}}">Chat</a>
+<a class="text-xl" style="background-color: #6500ea; padding: 1% ;border-radius: 25px;" class="" href="{{url_for('vc' , team_id = team_id)}}">VC</a>
+{%endif%}
 <br><br><br>
 <div class="lists">
   <div class="list">
