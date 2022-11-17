@@ -48,14 +48,16 @@
           <a class="clicks" href="{{url_for('account')}}">Account</a>
           <a class="clicks" href="{{url_for('logout')}}">Logout</a>
           <a class="clicks" href="{{url_for('inventory')}}">Inventory</a>
+          <a class="clicks" href="{{url_for('all_rental')}}">Applications</a>
           {%elif current_user.role == 1%}
           <a class="clicks" href="{{url_for('make_team')}}">Make Team</a>
           <a class="clicks" href="{{url_for('join_team')}}">Join Team</a>
           <a class="clicks" href="{{url_for('all_teams')}}">Your Teams</a>
           <a class="clicks" href="{{url_for('account')}}">Account</a>
+          <a class="clicks" href="{{url_for('all_rental')}}">Applications</a>
           <a class="clicks" href="{{url_for('logout')}}">Logout</a>
           {%elif current_user.role == 0%}
-	  <a class = "clicks" href="{{url_for('all_rental')}}">Apply to be a member</a>
+	  <a class = "clicks" href="{{url_for('make_rental')}}">Apply to be a member</a>
           <a class="clicks" href="{{url_for('join_team')}}">Join Team</a>
           <a class="clicks" href="{{url_for('all_teams')}}">Your Teams</a>
           <a class="clicks" href="{{url_for('account')}}">Account</a>
@@ -72,11 +74,11 @@
       <a href=index.htm class="btn btn-ghost normal-case text-xl">Mafia Manager</a>
     </div>
     <div class="navbar-end">
-     
+
     </div>
   </div>
 
-  
+
 <script src="https://unpkg.com/flowbite@1.5.4/dist/flowbite.js"></script>
   {%block content%}
   {%endblock%}

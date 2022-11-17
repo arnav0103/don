@@ -1,6 +1,5 @@
-<!DOCTYPE HTML>
-<html>
-<head>
+{%extends "base.htm"%}
+{%block head%}
   <script type="text/javascript">
   window.onload = function () {
     var chart = new CanvasJS.Chart("chartContainer",
@@ -9,18 +8,24 @@
       title:{
       text: "Number of Helicopters"
       },
+      axisY:{
+        title: "Number of Helicopters",
+      },
+      axisX:{
+        title: "Days",
+      },
        data: [
       {
         type: "line",
 
         dataPoints: [
-        
+
         { x:  {{ car[-6].id }}, y: {{ car[-6].helicopter }} },
         { x:  {{ car[-5].id }}, y: {{ car[-5].helicopter }} },
         { x:  {{ car[-4].id }}, y: {{ car[-4].helicopter }} },
         { x:  {{ car[-3].id }}, y: {{ car[-3].helicopter }} },
         { x:  {{ car[-2].id }}, y: {{ car[-2].helicopter }} },
-        { x:  {{ car[-1].id }}, y: {{ car[-1].helicopter }} } 
+        { x:  {{ car[-1].id }}, y: {{ car[-1].helicopter }} }
         ]
       }
       ]
@@ -31,11 +36,12 @@
 
   </script>
 
-  
 
- <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></head>
-<body>
+
+ <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+ {%endblock%}
+{%block content%}
   <div id="chartContainer" style="height: 300px; width: 100%;">
   </div>
-</body>
+{%endblock%}
 </html>

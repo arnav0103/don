@@ -358,7 +358,7 @@ def single_rent(rent_id):
 #             form.rent.data = rent.rented
 
 #         image = url_for('static', filename=rent.image)
-#         return render_template('update.htm', image=image, rent=rent, form=form, rent_id=rent_id)
+#         return rendr_template('update.htm', image=image, rent=rent, form=form, rent_id=rent_id)
 
 
 @app.route('/<rent_id>/delete', methods=['GET', 'POST'])
