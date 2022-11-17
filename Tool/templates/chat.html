@@ -1,20 +1,24 @@
 {% extends "base.htm"%}
-
 {% block content %}
-    <br><br><br><br><br>
-    <div class=" h-screen overflow-hidden flex items-center justify-center">
-<div style="margin: 10%; font-size: x-large;" class="rounded-md border-grey-200">
+<style>
+  html, body{
+      height: 100% !important;
+      background-color: #181717;
+  }
+  </style>
+    <br><br>
+<div style="margin: 10%; font-size: x-large;">
     <!-- <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3> -->
     {%for i in team.chats%}
-      <b>{{i.name}} : </b>{{i.message}}
+      <b>{{i.name}} :</b>{{i.message}}
       <br>
     {%endfor%}
     <div class="message_holder"></div>
 
-    <form action="" method="POST" class="text-grey-50">
-      <button class="rounded-full"><input  class="text-grey-50 font-bold" type="text" value = {{current_user.name}} disabled = "disabled" class="username" placeholder="User Name"/></button>
-     <button class="rounded-full"> <input  type="text" class="message" placeholder="Messages"/></button>
-     <button class="rounded-full bg-blue-900 w-40 h-20"><input type="submit"/></button>
+    <form action="" method="POST">
+      <input type="text" value = {{current_user.name}} disabled = "disabled" class="username" placeholder="User Name"/>
+      <input type="text" class="message" placeholder="Messages"/>
+      <button class="btn-primary rounded px-2 py-0.5"><input type="submit"/></button><br><br>
     </form>
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -46,7 +50,6 @@
         }
       })
     </script>
-    </div>
 
 
 {% endblock %}
