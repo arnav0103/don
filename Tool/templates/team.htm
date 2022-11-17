@@ -60,10 +60,11 @@ body {
 }
 
 .link-flex {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
+  display: flex !important
+  justify-content: center
   color: #fff !important;
+  font-size: 15px !important;
+
 }
 </style>
 {%endblock%}
@@ -75,9 +76,9 @@ body {
   {%for user in team.workers%}
 <div >
   {%if current_user.username =='don_jokerman'%}
-  <a href="{{url_for('role', user_id=user.id)}}" class='link-flex'><h5 style="margin: 1em; display: inline-block;">{{user.username}}</h5></a>
+  <a href="{{url_for('role', user_id=user.id)}}" class='link-flex'> {{user.username}}</a>
   {%else%}
-  <h5 style="margin: 1em; display: inline-block;"><img style="border-radius: 100%;" height="30px" width="auto"  src="{{url_for('static' , filename = user.profile_image)}}" alt="">  {{user.username}}</h5>
+  <p style="margin: 1em; display: inline-block;">{{user.username}}</p>
   {%endif%}
 </div>
 {%endfor%}
