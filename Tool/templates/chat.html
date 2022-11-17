@@ -15,11 +15,18 @@
                 text-align:justify;
 
             }
+            .scroll-start-at-top {
+            flex: 1 1 0%;
+          }
+
   </style>
   {%endblock%}
   {% block content %}
     <br><br>
-<div style="margin: 10%; font-size: x-large;" class="scroll">
+    <span class="scroll-start-at-top"></span>
+
+<div style="margin: 5%; font-size: x-large;" class="scroll">
+
     <!-- <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3> -->
     {%for i in team.chats%}
       <b>{{i.name}} :</b>{{i.message}}
@@ -27,12 +34,15 @@
     {%endfor%}
     <div class="message_holder"></div>
 
+
     <form action="" method="POST">
       <input type="text" value = {{current_user.name}} disabled = "disabled" class="username" placeholder="User Name"/>
       <input type="text" class="message" placeholder="Messages"/>
       <button class="btn-primary rounded px-2 py-0.5"><input type="submit"/></button><br><br>
     </form>
-</div>
+    <br><br><br>
+  </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script type="text/javascript">
@@ -59,7 +69,7 @@
         console.log( msg )
         if( typeof msg.user_name !== 'undefined' ) {
           $( 'h3' ).remove()
-          $( 'div.message_holder' ).append( '<div><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
+          $( 'div.message_holder' ).append( '<div><b>'+msg.user_name+'</b> '+msg.message+'</div>' )
         }
       })
     </script>
