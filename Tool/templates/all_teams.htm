@@ -3,25 +3,19 @@
 {%block content%}
 {%block head%}
 
-<Style>
-  body{
-    background-image: linear-gradient(to bottom left, black, white);
-  }
-</Style>
-
 {%endblock%}
 <div class=" h-screen overflow-hidden flex items-center justify-center">
-<section class="p-6 text-gray-800 h-min-screen">
+<section class="p-6 text-gray-50 h-min-screen">
   <div class="container mx-auto">
     
     <div class="grid gap-6 my-16 lg:grid-cols-3">
       {%for team in teams%}
-      <div class="flex flex-col p-8 space-y-4 rounded-md bg-gray-50">
+      <div class="flex flex-col p-8 space-y-4 rounded-md bg-neutral-600">
         <div class="flex items-center justify-center flex-shrink-0 w-12 h-12 text-xl font-bold rounded-full  text-gray-50"><img src="{{url_for('static' , filename = team.team_image)}}"></div>
-        <p class="text-2xl ">
+        <p class="text-2xl text-gray-50">
           <b>{{team.name}}<BR></b>Members: {{length.pop(0)}}
         </p><br>
-      <a href="{{url_for('team' , team_id = team.randomid)}}"> <button class="btn">Open team</button></a>
+      <a href="{{url_for('team' , team_id = team.randomid)}}"> <button class="text-gray-50 btn border bg-neutral-500 border-[#6500ea] transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-150 hover:bg-neutral-500 hover:border-[#6500ea] active:bg-[#6500ea]">Open team</button></a>
       </div>
      
      
