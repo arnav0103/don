@@ -1,7 +1,23 @@
 {%extends "base.htm"%}
+{%block head%}
+<style>
+html{
+    background-color: #181717 !important;
+    color: #FFFFFF !important;
+}
+body {
+transition: background-color .5s;
+height: 100%;
+color: #FFFFFF !important;
+
+}
+</style>
+
+{%endblock%}
+
 {%block content%}
 <br><br><br><br><br><br>
-<div class="container jumbotron" id="account">
+<div class="" id="account">
   <div align='center'>
     <h1>Welcome To the Page for {{team.name}}</h1>
     Your Team Image: <br>
@@ -15,7 +31,7 @@
       {{form.hidden_tag()}}
       <div class="form-group">
           {{form.name.label(class="form-group")}}
-          {{form.name(class="form-control col-md-6")}}
+          {{form.name(class="form-control col-md-6", style="color:#000000 !important;")}}
           {%if form.name.errors%}
             {%for error in form.name.errors%}
               <small class = 'text-danger'>{{error}}</small>
@@ -24,23 +40,23 @@
       </div>
       <div class="form-group">
         {{form.randomid.label(class="form-group")}}
-        {{form.randomid(class="form-control col-md-6")}}
+        {{form.randomid(class="form-control col-md-6", style="color:#000000 !important;")}}
         {%if form.randomid.errors%}
           {%for error in form.randomid.errors%}
             <small class = 'text-danger'>{{error}}</small>
           {%endfor%}
         {%endif%}
       </div>
-      <div class="form-group">
+      <div class="form-group" style="margin-left:3.9%;">
         {{form.picture.label(class="form-group")}}
-        {{form.picture(class="form-control-file col-md-6")}}
+        {{form.picture(class="form-control-file col-md-6", align="center")}}
         {%if form.picture.errors%}
           {%for error in form.picture.errors%}
             <small class = 'text-danger'>{{error}}</small>
           {%endfor%}
         {%endif%}
       </div>
-      <div class="form-group">
+      <div class="form-group" align="center">
         {{form.submit(class = 'btn btn-primary change')}}
 
       </div>
