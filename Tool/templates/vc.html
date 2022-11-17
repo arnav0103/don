@@ -9,7 +9,7 @@
         <h1 class="font-bold justify-center">Video Conference</h1><br>
         <form>
             <label for="username">Name: </label>
-            <input class="rounded-md" type="text" name=”username” id="username"> 
+            <input class="rounded-md" type="text" name=”username” id="username">
             <input class="rounded-md" type="text" id="id_t" name="id_t" value="{{team_id}}" disabled><br><br><br>
             <div class=" flex items-center justify-center">
             <button class="bg-white  text-black rounded-full w-40 h-10" id="join_leave">Join call</button>&nbsp;
@@ -17,7 +17,7 @@
         </div>
         </form>
 
-
+        <p id="count">Disconnected.</p>
         <div id="container" class="container" >
             <div id="local" class="participant" class="rounded-full"><div></div><div class="label" class="rounded-full">Me</div></div>
             <!-- more participants will be added dynamically here -->

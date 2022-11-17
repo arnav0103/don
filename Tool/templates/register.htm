@@ -8,74 +8,69 @@
 <main class="relative min-h-screen w-full ">
     <!-- component -->
     <div class="p-2.5" x-data="app">
-      
-      <section
-            class="absolute top-1/2 left-1/2 mx-auto max-w-sm -translate-x-1/2 -translate-y-1/2 transform space-y-4 text-center">
-            <!-- register content -->
-            <div x-show="isLoginPage" class="space-y-4">
-                <header class="mb-3 text-2xl font-bold">Register</header>
-                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                {{form.name(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder=" Full Name" )}}
-                      
-                </div>
-                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                  {{form.email(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Email" )}}
-                  {%if form.email.errors%}
-                  {%for error in form.email.errors%}
-                    <small class = 'text-danger'>{{error}}</small>
-                  {%endfor%}
-                {%endif%}
-                </div>
-                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                  {{form.username(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Username" )}}
-                  {%if form.username.errors%}
-                  {%for error in form.username.errors%}
-                    <small class = 'text-danger'>{{error}}</small>
-                  {%endfor%}
-                {%endif%}
-                </div>
-                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                  {{form.password(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Password" )}}
-                  {%if form.password.errors%}
-                  {%for error in form.password.errors%}
-                    <small class = 'text-danger'>{{error}}</small>
-                  {%endfor%}
-                {%endif%}
-                </div>
-                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                  {{form.pass_confirm(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Reenter Password" )}}
-      {%if form.pass_confirm.errors%}
-        {%for error in form.pass_confirm.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-                </div>
-                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                  {{form.pass_confirm(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Reenter Password" )}}
-      {%if form.pass_confirm.errors%}
-        {%for error in form.pass_confirm.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-                </div>
+<form method="post">
+  {{form.hidden_tag()}}
+  <section
+        class="absolute top-1/2 left-1/2 mx-auto max-w-sm -translate-x-1/2 -translate-y-1/2 transform space-y-4 text-center">
+        <!-- register content -->
+        <div x-show="isLoginPage" class="space-y-4">
+            <header class="mb-3 text-2xl font-bold">Register</header>
+            <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+            {{form.name(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder=" Full Name" )}}
 
-                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
-                 
-					<div class="flex items-center space-x-2">
-						
-						{{form.picture(class="px-4 py-2 border rounded-full bg-grey-900 border-gray-100")}}
-            {%if form.picture.errors%}
-        {%for error in form.picture.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-					</div>
-                </div>
-                {{form.submit(class ="w-full rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400")}}
-                
+            </div>
+            <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+              {{form.email(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Email" )}}
+              {%if form.email.errors%}
+              {%for error in form.email.errors%}
+                <small class = 'text-danger'>{{error}}</small>
+              {%endfor%}
+            {%endif%}
+            </div>
+            <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+              {{form.username(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Username" )}}
+              {%if form.username.errors%}
+              {%for error in form.username.errors%}
+                <small class = 'text-danger'>{{error}}</small>
+              {%endfor%}
+            {%endif%}
+            </div>
+            <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+              {{form.password(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Password" )}}
+              {%if form.password.errors%}
+              {%for error in form.password.errors%}
+                <small class = 'text-danger'>{{error}}</small>
+              {%endfor%}
+            {%endif%}
+            </div>
+            <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+              {{form.pass_confirm(class = 'my-3 w-full border-none bg-transparent outline-none focus:outline-none' ,placeholder="Reenter Password" )}}
+  {%if form.pass_confirm.errors%}
+    {%for error in form.pass_confirm.errors%}
+      <small class = 'text-danger'>{{error}}</small>
+    {%endfor%}
+  {%endif%}
             </div>
 
-           
+            <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200 focus-within:ring-blue-400">
+
+      <div class="flex items-center space-x-2">
+
+        {{form.picture(class="px-4 py-2 border rounded-full bg-grey-900 border-gray-100")}}
+        {%if form.picture.errors%}
+    {%for error in form.picture.errors%}
+      <small class = 'text-danger'>{{error}}</small>
+    {%endfor%}
+  {%endif%}
+      </div>
+            </div>
+            {{form.submit(class ="w-full rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400")}}
+
+        </div>
+
+
+
+</form>
 
                 <div class="mt-8 text-sm text-gray-400">
                     By signing in to ********, you agree to our

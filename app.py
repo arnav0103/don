@@ -28,8 +28,9 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+    print(23208320)
     if form.validate_on_submit():
-
+        print(9724793749374)
         user = User(name=form.name.data,
                     username=form.username.data,
                     email=form.email.data,
@@ -527,6 +528,7 @@ def vc(team_id):
 @login_required
 def vc_login():
     username = request.get_json(force=True).get('username')
+    print(username)
     room1 = request.get_json(force=True).get('id_t')
     if not username:
         abort(401)
