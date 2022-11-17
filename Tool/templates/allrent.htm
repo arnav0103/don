@@ -1,5 +1,20 @@
 {%extends 'base.htm'%}
+{%block head%}
+<style>
+html{
+    background-color: #181717 !important;
+}
+body {
+transition: background-color .5s;
+height: 100%;
+}
 
+</style>
+<link rel="stylesheet" type="text/css" media="screen" href="{{url_for('static', filename="team.css")}}">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+{%endblock%}
 {%block content%}
 <br><br><br><br><br>
 <a style="margin-right: 5%;" id="ad" class = 'clicks' href="{{url_for('make_rental')}}">Advertise Here</a>

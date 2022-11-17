@@ -1,59 +1,76 @@
 {%extends 'base.htm'%}
-
+{%block head%}
+<style>
+html{
+    background-color: #181717 !important;
+}
+body {
+transition: background-color .5s;
+height: 100%;
+}
+</style>
+{%endblock%}
 {%block content%}
-<div class="container col trial" align ="center">
+<div class="flex justify-center my-2 mx-4 md:mx-0">
   <br><br><br><br>
-  <h1 align = "center">Rent Out</h1>
-  <form  method="POST" enctype="multipart/form-data">
+
+  <form  method="POST" enctype="multipart/form-data" class="w-full max-w-xl bg-white rounded-lg shadow-md p-6">
     {{form.hidden_tag()}}
-    <div class="form-group">
-      {{form.name.label}}{{form.name(class = 'form-control col-md-6' ,placeholder="Full Name" )}}
-    </div>
-    <div class="form-group">
-      {{form.body.label}}{{form.body(class = 'form-control col-md-6' ,placeholder="How many Murders have you committed?" )}}
-      {%if form.body.errors%}
-        {%for error in form.body.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-    </div>
-    <div class="form-group">
-      {{form.criminal.label}}{{form.criminal(class = 'form-control col-md-6' ,placeholder="What is your Criminal Record?" )}}
-      {%if form.criminal.errors%}
-        {%for error in form.criminal.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-    </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <h1 align = "center">Fill Application</h1>
+      <div class="w-full md:w-full px-3 mb-6">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Name</label>
+        {{form.name(class = 'appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none' , placeholder="What is your Name?")}}
+      </div>
+      <div class="w-full md:w-full px-3 mb-6">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Body Count</label>
+        {{form.body(class = 'appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none', placeholder="How many Murders have you commited?" )}}
+        {%if form.body.errors%}
+          {%for error in form.body.errors%}
+            <small class = 'text-danger'>{{error}}</small>
+          {%endfor%}
+        {%endif%}
+      </div>
 
-    <div class="form-group">
-      {{form.years.label}}{{form.years(class = 'form-control col-md-6' ,placeholder="How many Years have you been Imprisoned?" )}}
-      {%if form.years.errors%}
-        {%for error in form.years.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-    </div>
 
-    <div class="form-group">
-      {{form.connection.label}}{{form.connection(class = 'form-control col-md-6' ,placeholder="How many underground connections do you have?" )}}
-      {%if form.connection.errors%}
-        {%for error in form.connection.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-    </div>
-    <div class="form-group">
-      {{form.picture.label(class="form-group")}}
-      {{form.picture(class="form-control-file col-md-6")}}
-      {%if form.picture.errors%}
-        {%for error in form.picture.errors%}
-          <small class = 'text-danger'>{{error}}</small>
-        {%endfor%}
-      {%endif%}
-    </div>
-    <div class="form-group">
-      {{form.submit(class ="btn btn-primary change")}}
+      <div class="w-full md:w-full px-3 mb-6">
+        {{form.criminal.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2")}}{{form.criminal(class = 'appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none' ,placeholder="What is your Criminal Record?" )}}
+        {%if form.criminal.errors%}
+          {%for error in form.criminal.errors%}
+            <small class = 'text-danger'>{{error}}</small>
+          {%endfor%}
+        {%endif%}
+      </div>
+
+      <div class="w-full md:w-full px-3 mb-6">
+        {{form.years.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2")}}{{form.years(class = 'appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none' ,placeholder="How many Years have you been Imprisoned?" )}}
+        {%if form.years.errors%}
+          {%for error in form.years.errors%}
+            <small class = 'text-danger'>{{error}}</small>
+          {%endfor%}
+        {%endif%}
+      </div>
+
+      <div class="w-full md:w-full px-3 mb-6">
+        {{form.connection.label(class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2")}}{{form.connection(class = 'appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none' ,placeholder="How many underground connections do you have?" )}}
+        {%if form.connection.errors%}
+          {%for error in form.connection.errors%}
+            <small class = 'text-danger'>{{error}}</small>
+          {%endfor%}
+        {%endif%}
+      </div>
+      <div class="flex items-center space-x-2">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Upload your Picture</label>
+        {{form.picture(class="px-4 py-2 border rounded-full bg-grey-900 border-gray-100")}}
+        {%if form.picture.errors%}
+          {%for error in form.picture.errors%}
+            <small class = 'text-danger'>{{error}}</small>
+          {%endfor%}
+        {%endif%}
+      </div>
+      <div class="w-full md:w-full px-3 mb-6">
+        {{form.submit(class ="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500")}}
+      </div>
     </div>
   </form>
 
