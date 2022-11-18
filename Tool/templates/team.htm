@@ -117,12 +117,14 @@ body {
 
         <a href="{{url_for('event' ,team_id = team_id, event_id = event.id) }}">read more</a>
         <br>
+        {%if current_user.role!=0%}
         {%if current_user.id == team.ownerid%}
           <a style="font-weight: 800;" class="btn btn-primary" title = "Delete" href="{{url_for('delete_event' , team_id = team_id , event_id = event.id)}}">D</a>
         {%endif%}
         <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Ongoing" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'o')}}">O</a>
         <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Completed" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'c')}}">C</a>
         <br>
+        {%endif%}
 
       </div>
 
@@ -145,12 +147,13 @@ body {
 
         <a href="{{url_for('event' ,team_id = team_id, event_id = event.id )}}">read more</a>
         <br>
+        {%if current_user.role!=0%}
         {%if current_user.id == team.ownerid%}
           <a style="font-weight: 800;" class="btn btn-primary" title = "Delete" href="{{url_for('delete_event' , team_id = team_id , event_id = event.id)}}">D</a>
         {%endif%}
         <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Upcoming" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'u')}}">U</a>
         <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Completed" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'c')}}">C</a>
-
+        {%endif%}
 
       </div>
       {%endfor%}
@@ -171,11 +174,13 @@ body {
         <small id="emailHelp" class="form-text text-muted">Published :{{event.date.strftime('%d-%m-%Y/%H:%M')}}</small>
         <a href="{{url_for('event' ,team_id = team_id, event_id = event.id)}}">read more</a>
         <br>
+        {%if current_user.role!=0%}
         {%if current_user.id == team.ownerid%}
           <a style="font-weight: 800;" class="btn btn-primary" title = "Delete" href="{{url_for('delete_event' , team_id = team_id , event_id = event.id)}}">D</a>
         {%endif%}
         <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Upcoming" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'u')}}">U</a>
         <a style="font-weight: 800;" class="btn btn-primary" title = "Change to Ongoing" href="{{url_for('change_event' , team_id = team_id , event_id = event.id , type = 'o')}}">O</a>
+        {%endif%}
 
       </div>
       {%endfor%}
